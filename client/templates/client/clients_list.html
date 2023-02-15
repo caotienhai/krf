@@ -1,0 +1,33 @@
+{% extends 'poscrm/base.html' %}
+
+{%block title%}Customers{%endblock%}
+
+{% block content %}
+    <div class = 'py-4 px-6'>
+        <h1 class='mb-4 text-xl'>LIST OF CUSTOMERS</h1>
+        <a href={% url 'clients:add' %} class="inline-block py-2 px-6 bg-teal-500 rounded-xl text-white">Add Customers</a>
+        <a href = {% url 'clients:export' %} class="inline-block py-2 px-6 rounded-xl bg-teal-500 text-white">Export Clients</a> 
+        
+        {% if clients %}
+            <div class ='mt-6 flex justify-between'>
+                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Contact Name</p>
+                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Company Name</p>
+                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Country</p>
+                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Profile</p>              
+            </div>
+            
+            {% for client in clients %}
+                <div class ='flex justify-between'>
+                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}"><a href="{% url 'clients:detail' client.id %}">{{ client.contact_name }}</a></p>
+                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ client.company_name }}</p>
+                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ client.country }}</p>
+                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ client.profile }}</p>
+                </div>                            
+            {% endfor %}
+
+        {% else %}
+            <p class='mt-6 px-2'>There are no customer here!!!</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
