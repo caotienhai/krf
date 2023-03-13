@@ -114,11 +114,11 @@ EMAIL_HOST_PASSWORD = ''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',        
-        'NAME': 'kfrcrm',
-        'USER': 'postgres',
-        'PASSWORD': 'Cath@1981',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'dqkhki1dvt6af',
+        'USER': 'rcwyvpbmjpmxnt',
+        'PASSWORD': '9b823f8e7c758cbfec47ca93fb6918f97ea6560975b750c963a78556c0adec5b',
+        'HOST': 'ec2-34-226-11-94.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
