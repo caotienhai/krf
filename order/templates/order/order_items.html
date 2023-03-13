@@ -1,0 +1,115 @@
+{% extends 'poscrm/base.html' %}
+{%block title%}Order items{%endblock%}
+
+{% block content %}
+    <br>
+    <div class = 'py-4 px-6 mt-6'>
+        <h1 class='mb-2 text-xl'>Order Info: Number: {{ order.order_number }}  - Dated: {{ order.order_date }}</h1>
+        <table class="container mb-4">
+            <thead>
+                <th></th>
+                <th><h5>User Info:</h5></th>
+                <th></th>
+                <th><h5>Payment:</h5></th>
+                <th></th>
+                <th><h5>Progress:</h5></th>
+                <th></th>                
+                <th><h5>Document:</h5></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align='right'>PIC:</td>
+                    <td bgcolor='lightblue'>{{order.pic.username}}</td>
+                    <td align='right'>FOB value:</td>
+                    <td align='center' bgcolor='regal-blue'>${{order.order_total}}</td>
+                    <td align='right'>Load date:</td>
+                    <td bgcolor='cyan'>{{order.load_date}}</td>                    
+                    <td align='right'>Booking:</td>
+                    <td bgcolor='teal'>{{order.booking}}</td>
+                </tr>
+                <tr>
+                    <td align='right'>Team:</td>
+                    <td bgcolor='lightblue'>{{order.team.name}}</td>
+                    <td align='right'>Freight:</td>
+                    <td align='center' bgcolor='regal-blue'>${{order.freight}}</td>
+                    <td align='right'>ETD date:</td>
+                    <td bgcolor='cyan'>{{order.etd_date}}</td>                                        
+                    <td align='right'>Ship Lines:</td>
+                    <td bgcolor='teal'>{{order.ship_line}}</td>
+                </tr>
+                <tr>
+                    <td align='right'>Client:</td>
+                    <td bgcolor='lightblue'>{{order.client.company_name}}</td>
+                    <td align='right'>Discount:</td>
+                    <td align='center' bgcolor='regal-blue'>${{order.discount}}</td>
+                    <td align='right'>ETA date:</td>
+                    <td bgcolor='cyan'>{{order.eta_date}}</td>                    
+                    <td align='right'>Ship Lines:</td>
+                    <td bgcolor='teal'>{{order.ship_line}}</td>
+                </tr>
+                <tr>
+                    <td align='right'>Ship To:</td>
+                    <td bgcolor='lightblue'>{{order.ship_country.name}}</td>
+                    <td align='right'>Deposit:</td>
+                    <td align='center' bgcolor='regal-blue'>${{order.deposit}}</td>
+                    <td align='right'>Status:</td>
+                    <td bgcolor='cyan'>{{order.status}}</td>                    
+                    <td align='right'>Invoice:</td>
+                    <td bgcolor='teal'>{{order.invoice_number}}</td>
+                </tr>
+                <tr>
+                    <td align='right'>Total CBM:</td>
+                    <td bgcolor='lightblue'>{{order.order_cbm|floatformat:2}}</td>
+                    <td align='right'>Payment:</td>
+                    <td align='center' bgcolor='regal-blue'>${{payment}}</td>
+                    <td align='right'>TKHQ date:</td>
+                    <td bgcolor='cyan'>{{order.declare_date}}</td>                    
+                    <td align='right'>Declaration:</td>
+                    <td bgcolor='teal'>{{order.declaration}}</td>
+                </tr>
+            </tbody>            
+        </table>
+        {% if team.name == 'Operation'%}
+            <div class="row mb-2">
+                <div class="col-2 bg-gray-200" align='right'>Local Charge:</div>
+                <div class="col-2">{{ order.local_charge}}</div>
+                <div class="col-2 bg-gray-200" align='right'>Trucking Fee:</div>
+                <div class="col-2">{{ order.trucking_fee}}</div>
+
+            </div>
+        {% endif %}
+        <form id="order_delete_form" method="post" action={% url 'orders:delete' order.id %}>
+            {% csrf_token %}
+        </form>    
+        <a href={% url 'orders:edit' order.id %} class="inline-block py-1 px-6 bg-teal-600 rounded-xl text-white">Edit Order Details:</a>
+        <a href="#" onclick="document.getElementById('order_delete_form').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete Order</a>
+        {% if orderitems %}
+            <div class ='mt-3 flex justify-between'>
+                <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Product_code</p>
+                <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Product Name</p>
+                <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Quantity</p>
+                <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Unit Price</p>
+                <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Total Price</p>
+                <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Item CBM</p>
+                <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Item Cost $</p>
+            </div>
+
+            {% for item in orderitems %}
+                <div class ='flex justify-between'>
+                    <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'products:edit' item.product_code.id %}>{{ item.product_code.product_code }}</a></p>
+                    <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.product_code.product_name }}</p>
+                    <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.quantity }}</p>
+                    <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.unit_price }}</p>
+                    <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.get_total_price }}</p>
+                    <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.get_item_cbm }}</p>
+                    <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.get_item_cost }}</p>
+                </div>
+
+            {% endfor %}
+            
+        {% else %}
+            <p class='mt-6 px-2'>There are no item here!!!</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

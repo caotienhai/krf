@@ -1,0 +1,120 @@
+{% extends 'poscrm/base.html' %}
+{%block title%}Project tasks{%endblock%}
+{% block content %}
+    <br>
+    <div class = 'py-4 px-6 mt-6'>
+        <h1 class='mb-2 text-xl'>Project: {{ choosen_project.name }}  - Dated: {{ choosen_project.add_date }}</h1>
+        <table class="container mb-2">
+            <thead class='text-muted small'>
+                <th>Manager:</th>
+                <th>Status:</th>
+                <th>Project Objective:</th>
+                <th>Project Deadline:</th>
+                <th>Complete Percentage:</th>                
+                <th>Update Date:</th>
+            </thead>
+            <tbody>
+                <tr><td bgcolor='lightblue'>{{choosen_project.assign.first_name}}</td>
+                    <td bgcolor='lightblue'>
+                        {% if choosen_project.status == 'Stuck' %}
+                            <div class="text-danger">{{choosen_project.status}}</div>
+                        {% elif choosen_project.status == 'Working' %}
+                            <div class="text-success">{{choosen_project.status}}</div>
+                        {% else %}
+                            <div class="text-info">{{choosen_project.status}}</div>
+                        {% endif %}
+                    </td>
+                    <td bgcolor='lightblue'>{{choosen_project.objective|truncatechars:50}}</td>
+                    <td bgcolor='lightblue'>{{choosen_project.dead_line}}</td>
+                    <td bgcolor='lightblue'>
+                        <div class="bars">
+                            <div class="progress progress-xs">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ choosen_project.complete_per|floatformat }}%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td bgcolor='lightblue'>{{choosen_project.upd_date}}</td>
+                </tr>
+            </tbody>            
+        </table>
+        <div class = 'row px-4 mx-2'>
+        <a href={% url 'projects:project_update' choosen_project.pk %} class="inline-block mx-2 py-1 px-2 bg-teal-500 rounded-xl text-white">Edit Project Details:</a>
+        <a href={{choosen_project.project_link}} target="_blank" class="inline-block mx-2 py-1 px-2 bg-blue-500 rounded-xl text-white">Go to Link:</a>
+        {% if request.user.is_superuser %}
+        <form id="project_delete_form" method="post" action="{% url 'projects:delete' choosen_project.pk %}"> 
+            {% csrf_token %}
+        </form>
+        <a href="#" onclick="document.getElementById('project_delete_form').submit();" class="inline-block mx-2 py-1 px-2 rounded-xl bg-red-500 text-white">Delete Project</a>
+        {%endif%}
+        </div>
+        {% if project_tasks %}
+        <div class="flex flex-col mt-4">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                        <table class="table min-w-full text-sm font-light">
+                            <thead class="border-b bg-teal-500 text-center text-white">
+                                <tr>
+                                    <th scope="col" class="border-r px-6 py-1">PIC</th>
+                                    <th scope="col" class="border-r px-6 py-1">Task Name</th>
+                                    <th scope="col" class="border-r px-6 py-1">Task Target</th>
+                                    <th scope="col" class="border-r px-6 py-1">Task Update</th>
+                                    <th scope="col" class="border-r px-6 py-1">Status</th>
+                                    <th scope="col" class="border-r px-6 py-1">Deadline</th>
+                                    <th scope="col" class="border-r px-6 py-1">Due</th>
+                                    <th scope="col" class="border-r px-6 py-1">Actions</th>
+                                    <th scope="col" class="border-r px-2 py-1"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in project_tasks %}
+                                <tr class="border-b">
+                                    <td class="border-r px-6 py-2">{{ item.assign.first_name }}</td>                    
+                                    <td class="border-r px-6 py-2"><a href={% url 'projects:task_update' item.project.pk item.pk %}>{{ item.task_name }}</a></td>
+                                    <td class="border-r px-6 py-2">{{ item.task_target|truncatechars:50 }}</td>
+                                    <td class="border-r px-6 py-2">{{ item.task_update|truncatechars:50 }}</td>
+                                    <td class="border-r px-6 py-2">
+                                        {% if item.status == 'Stuck' %}
+                                        <div class="text-danger">{{ item.status }}</div>
+                                        {% elif item.status == 'Working' %}
+                                        <div class="text-success">{{ item.status }}</div>
+                                        {% else %}
+                                        <div class="text-info">{{ item.status }}</div>
+                                        {%endif%}
+                                    </td>
+                                    <td class="border-r px-6 py-2">{{ item.dead_line }}</td>
+                                    <td class="border-r px-6 py-2">
+                                        {% if item.due == 'Overdue' %}
+                                        <div class="text-danger">{{ item.due }}</div>
+                                        {% elif item.due == 'On Due' %}
+                                        <div class="text-success">{{ item.due }}</div>
+                                        {% else %}
+                                        <div class="text-info">{{ item.due }}</div>
+                                        {%endif%}
+                                    </td>
+                                    <td class="border-r px-1 py-2">
+                                        <form id="task_delete_form" method="post" action={% url 'projects:delete_task' item.pk %}>
+                                        {% csrf_token %}
+                                        </form>
+                                        <a href="#" onclick="document.getElementById('task_delete_form').submit();" class="py-1 px-2 bg-red-500 rounded-xl text-white">Delete</a>
+                                    </td>
+                                    <td class="border-r px-1 py-2">
+                                        {% if item.status != 'Done' %}
+                                        <a href={% url 'projects:done_task' item.pk %} class="py-1 px-2 bg-success rounded-xl text-white">Finish</a>
+                                        {%endif%}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <p class='mt-6 px-2'>There are no tasks here!!!</p>
+        {% endif %}
+        <a href={% url 'projects:create_task' choosen_project.pk %} class="inline-block py-1 px-6 bg-teal-600 rounded-xl text-white">Add More Tasks:</a>
+    </div>
+
+{% endblock %}

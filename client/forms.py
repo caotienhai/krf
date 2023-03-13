@@ -4,7 +4,7 @@ from .models import Client, Comment, ClientFile
 class AddClientForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = ('contact_name','company_name','address','country','phone','email','profile')
+        fields = '__all__'
         
 class AddCommentForm(forms.ModelForm):
     class Meta:

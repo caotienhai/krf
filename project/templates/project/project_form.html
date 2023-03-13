@@ -1,0 +1,137 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<div class="container animated fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <div class="card-group">
+                    <div class="card p-2 mb-2">
+                        <div class="card-body">
+                            <h3>{{title}}</h3>                           
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group w-1/2">
+                                        <div class="input-group">
+                                            <div class="px-6">{{ form.name|as_crispy_field }}
+                                                {% if form.name.errors %}
+                                                    <ol>
+                                                    {% for error in form.name.errors %}
+                                                        <li><strong>{{ error|escape }}</strong></li>
+                                                    {% endfor %}
+                                                    </ol>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group w-1/2">
+                                        <div class="input-group">
+                                            <div class="px-6 w">{{ form.project_link|as_crispy_field }}
+                                                {% if form.project_link.errors %}
+                                                    <ol>
+                                                    {% for error in form.project_link.errors %}
+                                                        <li><strong>{{ error|escape }}</strong></li>
+                                                    {% endfor %}
+                                                    </ol>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group px-6">
+                                        <div class="input-group">
+                                            {{ form.assign|as_crispy_field }}
+                                            {% if form.assign.errors %}
+                                                <ol>
+                                                {% for error in form.assign.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>                                    
+                                    
+                                    <div class="form-group px-6">
+                                        <div class="input-group">
+                                            {{ form.dead_line|as_crispy_field }}
+                                        </div>
+
+                                        {% if form.dead_line.errors %}
+                                                <ol>
+                                                {% for error in form.dead_line.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                    </div>
+                                    <div class="form-group px-2">
+                                        <div class="input-group">
+                                            {{ form.complete_per|as_crispy_field }}
+                                        </div>
+    
+                                        {% if form.complete_per.errors %}
+                                                <ol>
+                                                {% for error in form.complete_per.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                    </div>
+                                    <div class="form-group px-6">
+                                        <div class="input-group">
+                                            {{ form.status|as_crispy_field }}
+                                            {% if form.status.errors %}
+                                                <ol>
+                                                {% for error in form.status.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group px-6">
+                                        <div class="input-group">
+                                            {{ form.objective|as_crispy_field }}
+                                        </div>
+
+                                        {% if form.objective.errors %}
+                                                <ol>
+                                                {% for error in form.objective.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                    </div>
+                                    <div class="form-group px-6">
+                                        <div class="input-group">
+                                            {{ form.description|as_crispy_field }}
+                                        </div>
+    
+                                        {% if form.description.errors %}
+                                                <ol>
+                                                {% for error in form.description.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                    </div>
+                                </div>                               
+                                
+                                <div class="">
+                                    <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                                </div>
+                            </form>
+                            {{ form.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

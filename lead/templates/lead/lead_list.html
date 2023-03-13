@@ -1,35 +1,54 @@
 {% extends 'poscrm/base.html' %}
-
+{% load crispy_forms_tags %}
 {%block title%}Leads{%endblock%}
-
 {% block content %}
-    <div class = 'py-4 px-6'>
-        <h1 class='mb-4 text-xl'>LIST OF LEADS</h1>
-        <a href="{%url 'leads:add'%}" class="inline-block py-2 px-6 bg-teal-600 rounded-xl text-white">Add Lead</a>
-        
+    <br>
+    <div class = 'py-4 px-6 mt-2'>
+        <a href={%url 'leads:add'%} class="inline-block mb-2 py-1 px-6 bg-teal-500 rounded-xl text-white">Add More Leads</a>
+        <a href={%url 'leads:import'%} class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-success text-white">Excel Upload</a>
         {% if object_list %}
-            <div class ='mt-6 flex justify-between'>
+            <form action="" method="get">
+                <div class="row">
+                    <div class="col-2 bg-gray-100">{{ filter.form.country | as_crispy_field }}</div>
+                    <div class="col-2 bg-gray-100">{{ filter.form.region | as_crispy_field }}</div>
+                    <div class="col-2 bg-gray-100">{{ filter.form.portfolio | as_crispy_field }}</div>
+                    <div class="col-2 bg-gray-100">{{ filter.form.source | as_crispy_field }}</div>
+                    <div class="col-1 bg-gray-100">{{ filter.form.priority | as_crispy_field }}</div>
+                    <div class="col-2 bg-gray-100">{{ filter.form.status | as_crispy_field }}</div>                     
+                </div>
+                <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Leads"/>
+            </form>
+            <div class ='mt-2 flex justify-between'>
                 <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Contact Name</p>
                 <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Company Name</p>
                 <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Country</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Profile</p>
+                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Portfolio</p>
+                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Source</p>
                 <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Priority</p>
                 <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Status</p>                
-            </div>
+            </div>            
             
-            {% for lead in object_list %}
+            {% for lead in filter.qs %}
                 <div class ='flex justify-between'>
                     <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'leads:detail' lead.id %}>{{ lead.contact_name }}</a></p>
                     <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.company_name }}</p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.country }}</p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.profile }}</p>
+                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.country.name }}</p>
+                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.portfolio }}</p>
+                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.source }}</p>
                     <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.get_priority_display }}</p>
                     <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.get_status_display }}</p>
                 </div>                            
             {% endfor %}
+        {%else%}
+                <h3>No Leads Here</h3>
+        {%endif%}
 
-        {% else %}
-            <p class='mt-6 px-2'>There are no leads here!!!</p>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
     </div>
 

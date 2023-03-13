@@ -1,0 +1,47 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+{%block title%}Products{%endblock%}
+
+{% block content %}
+    <br>
+    <div class = 'mt-2 py-4 px-6'>
+        <a href="{%url 'products:add'%}" class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-teal-500 text-white">Add Product</a>
+        
+        {% if object_list %}
+            <form action="" method="get">
+                <div class="row">
+                    <div class="col-2 bg-gray-100">{{ filter.form.category | as_crispy_field }}</div>
+                    <div class="col-2 bg-gray-100">{{ filter.form.model | as_crispy_field }}</div>
+                    <div class="col-2 bg-gray-100">{{ filter.form.brand | as_crispy_field }}</div>
+                    <div class="col-2 bg-gray-100">{{ filter.form.group | as_crispy_field }}</div>
+                </div>
+                <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Product"/>
+            </form>
+            <div class ='mt-6 flex justify-between'>
+                <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Product Code</p>
+                <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>English Name</p>
+                <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Category</p>
+                <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Model</p>
+                <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Brand</p>
+                <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Unit Cost</p> 
+                <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Status</p>                
+            </div>
+            
+            {% for product in filter.qs %}
+                <div class ='flex justify-between'>
+                    <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'products:detail' product.id %}>{{ product.product_code }}</a></p>
+                    <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ product.english_name }}</p>
+                    <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ product.category }}</p>
+                    <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ product.model }}</p>
+                    <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ product.brand }}</p>
+                    <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ product.unit_cost }}</p>
+                    <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ product.status }}</p>
+                </div>                            
+            {% endfor %}
+
+        {% else %}
+            <p class='mt-6 px-2'>There are no product here!!!</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

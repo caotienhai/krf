@@ -1,0 +1,86 @@
+{% extends 'poscrm/base.html' %}
+
+{%block title%}{{ product.english_name }}{%endblock%}
+ 
+{% block content %}
+    <div class = 'py-4 px-6'>
+        <h1 class='mb-4 text-xl'>Product Details: {{ product.product_code }}</h1>
+        <div class="row mb-2">
+            <div class="col-4 bg-gray-200">Product Name:</div>
+            <div class="col-4 bg-gray-200">English Name:</div>
+            <div class="col-2 bg-gray-200">Category:</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4">{{ product.product_name}}</div>
+            <div class="col-4">{{ product.english_name}}</div>
+            <div class="col-2">{{ product.category}}</div>            
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-2 bg-gray-200">Product Model:</div>
+            <div class="col-2 bg-gray-200">Brand:</div>
+            <div class="col-2 bg-gray-200">Group:</div>
+            <div class="col-2 bg-gray-200">Cost:</div>
+            <div class="col-2 bg-gray-200">Status:</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2">{{ product.model}}</div>
+            <div class="col-2">{{ product.brand}}</div>
+            <div class="col-2">{{ product.group}}</div>
+            <div class="col-2">{{ product.cost}}</div>
+            <div class="col-2">{{ product.status}}</div>
+        </div>        
+        
+        <div class="row mb-2">
+            <div class="col-2 bg-gray-200">Packing Type:</div>
+            <div class="col-2 bg-gray-200">Qty Per Carton:</div>
+            <div class="col-2 bg-gray-200">Carton Length:</div>
+            <div class="col-2 bg-gray-200">Carton Width:</div>
+            <div class="col-2 bg-gray-200">Carton Height:</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2">{{ product.packing_type}}</div>
+            <div class="col-2">{{ product.qty_per_ctn}}</div>
+            <div class="col-2">{{ product.ctn_length}}</div>
+            <div class="col-2">{{ product.ctn_width}}</div>
+            <div class="col-2">{{ product.ctn_height}}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-7 bg-gray-200">Product Descriptions:</div>
+            <div class="col-3 bg-gray-200">Created at:</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-7">{{ product.description}}</div>
+            <div class="col-3">{{ product.created_at}}</div>
+        </div>        
+        <hr class = "my-4">
+
+        <form id="product_delete_form" method="post" action={% url 'products:delete' product.id %}>
+            {% csrf_token %}
+        </form>
+        <a href={% url 'products:edit' product.id %} class="py-2 px-4 rounded-xl bg-teal-500 text-white">Edit Product</a>
+        <a href="#" onclick="document.getElementById('product_delete_form').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+        <a href = {% url 'products:list' %} class="py-2 px-4 rounded-xl bg-blue-500 text-white">Back To Product List</a>
+
+        <hr class = "my-4">
+        
+        <h2 class="mb-2 text-3xl">Files</h2>
+
+        <hr class = "my-4">        
+        <div class="space-y-4">
+            {% for file in product.files.all %}
+                <div class="mb-6 bg-gray-100 p-6 rounded-xl">
+                    <p class = "mb-2"><strong>{{ file.created_by }}</strong>@ {{file.created_at}} </p>
+                    <img src="{{file.file.url}}" alt="Smiley face" width="250" height="250">
+                    <a href = {{ file.file.url }}>Download</a>
+                    
+                </div>
+            {% endfor %}
+        </div>
+        <form method="post" action ={% url 'products:add_file' product.id %} enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ fileform.as_p }}
+            <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
+        </form>
+    </div>  
+{% endblock %}

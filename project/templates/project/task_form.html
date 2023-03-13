@@ -1,0 +1,146 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+{%block title%}{{title}}{%endblock%}
+{% block content %}
+    <br>
+    <div class = 'py-4 px-6 mt-6'>
+        <h1 class='mb-2 text-xl'>Project: {{ project.name }}  - Dated: {{ project.add_date }}</h1>
+        <table class="container mb-4">
+            <thead>
+                <th><h6>Manager:</h6></th>
+                <th><h6>Status:</h6></th>
+                <th><h6>Project Deadline:</h6></th>
+                <th><h6>Project Link:</h6></th>                
+                 
+            </thead>
+            
+            <tbody>
+                <tr><td bgcolor='lightblue'>{{project.assign.first_name}}</td>
+                    <td bgcolor='lightblue'>{{project.status}}</td>
+                    <td bgcolor='lightblue'>{{project.dead_line}}</td>
+                    <td bgcolor='lightblue'><a href ={{project.project_link}} target='blank'>Link to files</td>
+
+                </tr>
+            </tbody>            
+        </table>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="px-6">{{ form.task_name|as_crispy_field }}
+                            {% if form.task_name.errors %}
+                                <ol>
+                                {% for error in form.task_name.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                                </ol>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group px-6">
+                    <div class="input-group">
+                        {{ form.assign|as_crispy_field }}
+                        {% if form.assign.errors %}
+                            <ol>
+                            {% for error in form.assign.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group px-6">
+                    <div class="input-group">
+                        {{ form.status|as_crispy_field }}
+                        {% if form.status.errors %}
+                            <ol>
+                            {% for error in form.status.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group px-6">
+                    <div class="input-group">
+                        {{ form.dead_line|as_crispy_field }}
+                    </div>
+
+                    {% if form.dead_line.errors %}
+                            <ol>
+                            {% for error in form.dead_line.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                </div>
+                <div class="form-group px-2">
+                    <div class="input-group">
+                        {{ form.complete_per|as_crispy_field }}
+                    </div>
+    
+                    {% if form.complete_per.errors %}
+                            <ol>
+                            {% for error in form.complete_per.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                </div>
+                <div class="form-group px-2">
+                    <div class="input-group">
+                        {{ form.due|as_crispy_field }}
+                    </div>
+    
+                    {% if form.due.errors %}
+                            <ol>
+                            {% for error in form.due.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group px-6">
+                    <div class="input-group">
+                        {{ form.task_target|as_crispy_field }}
+                    </div>
+
+                    {% if form.task_target.errors %}
+                            <ol>
+                            {% for error in form.task_target.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                </div>
+                <div class="form-group px-6">
+                    <div class="input-group">
+                        {{ form.task_update|as_crispy_field }}
+                    </div>
+
+                    {% if form.task_update.errors %}
+                            <ol>
+                            {% for error in form.task_update.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                </div>
+            </div>
+            
+            
+            <div class="">
+                <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+            </div>
+        </form>
+        {{ form.errors }}
+    </div>
+
+{% endblock %}

@@ -8,6 +8,9 @@ from userprofile.forms import LoginForm
 
 urlpatterns = [
     path('', index, name = 'index'),
+    path('projects/', include('project.urls')),
+    path('dashboard/order/', include('order.urls')),
+    path('dashboard/product/', include('product.urls')),
     path('dashboard/lead/', include('lead.urls')),
     path('dashboard/clients', include('client.urls')),
     path('dashboard/', include('dashboard.urls')),
@@ -16,5 +19,6 @@ urlpatterns = [
     path('about/', about, name = 'about'),
     path('log-in/', views.LoginView.as_view(template_name='userprofile/login.html', authentication_form=LoginForm),name = 'login'),
     path('log-out/', views.LogoutView.as_view(),name = 'logout'),
+    path('admin/clearcache/', include('clearcache.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

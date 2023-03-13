@@ -1,0 +1,32 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+
+{%block title%}Import Leads from Excel{%endblock%}
+ 
+{% block content %}
+
+<form method = 'POST' action="." enctype='multipart/form-data' >            
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title my-2 mx-4">
+                    <h2>Import Excel Data into Database</h2>           
+                </div>
+                    <div class="x_content">
+                        <input type="file" name="myfile" class="form-control my-2 mx-4">
+                        <button type="submit" class="btn btn-success rounded-xl py-2 px-6 my-2 mx-4" >Upload data</button>   
+                    </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{%endblock%}

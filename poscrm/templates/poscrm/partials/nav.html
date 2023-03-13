@@ -1,16 +1,29 @@
-<nav class = "py-4 px-6 flex justify-between bg-teal-500">
-    <a href="/" class="text-white">KAROFI CRM</a>
-    <div class='space-x-4'>
-        <a href="{%url 'about'%}" class="py-2 px-6 bg-teal-300 rounded-xl text-white">About</a>
-        {% if request.user.is_authenticated %}
-            <a href="{%url 'teams:detail' team.id %}" class="text-white">{{ team.name }}</a>
-            <a href="{%url 'dashboard:index'%}" class="py-2 px-6 bg-teal-600 rounded-xl text-white">Dashboard</a>                
-            <a href="{%url 'leads:list'%}" class="py-2 px-6 bg-teal-600 rounded-xl text-white">Leads</a>
-            <a href="{%url 'clients:list'%}" class="py-2 px-6 bg-teal-600 rounded-xl text-white">Customers</a>
-            <a href="{%url 'userprofile:myaccount'%}" class="py-2 px-6 bg-teal-600 rounded-xl text-white">My Account</a>
-        {% else %}
-            <a href="{%url 'login'%}" class="py-2 px-6 bg-teal-600 rounded-xl text-white">Log In</a>
-            <a href="{%url 'userprofile:signup'%}" class="py-2 px-6 bg-teal-300 rounded-xl text-white">Sign Up</a> 
-        {% endif %}           
-    </div>
+<nav :class="{'flex': open, 'hidden': !open}" class = "navbar navbar-inverse fixed-top py-1 px-6 flex justify-between bg-teal-500">
+    <div class = "container-fluid">
+        <a href="/" class="navbar-brand text-white">KAROFI</a>
+        
+        <div class='space-x-2'>            
+            {% if request.user.is_authenticated %}
+                <a href="{%url 'dashboard:index'%}" class="py-1 px-6 text-white">Dashboard</a>
+                <a href="{%url 'projects:list'%}" class="py-2 px-3 text-white">Project</a>
+                {% if team.name == 'Operation' %}
+                    <a href="{%url 'orders:list'%}" class="py-2 px-3 text-white">Orders</a></li>
+                    <a href="{%url 'products:list'%}" class="py-2 px-3 text-white">Products</a>
+                {% endif %}                   
+                    {% if team.name == 'David' or team.name == 'Victor' or team.name == 'Alex' or request.user.username == 'haict' %}
+                    <a href="{%url 'leads:list'%}" class="py-2 px-3 text-white">Leads</a>
+                    {% endif %}
+                    <a href="{%url 'clients:list'%}" class="py-2 px-3 text-white">Customers</a>
+                    <a href="{%url 'userprofile:myaccount'%}" class="py-2 px-3 text-white">My Account</a>
+                {% else %}
+                <a href="{%url 'login'%}" class="py-2 px-3 bg-teal-600 rounded-xl text-white">Log In</a>
+                <a href="{%url 'userprofile:signup'%}" class="py-2 px-3 bg-teal-300 rounded-xl text-white">Sign Up</a> 
+                {% endif %}
+        </div>
+        <form class = "form-inline my-2 my-lg-0" method='get' action="{% url 'leads:search_lead' %}">
+            <input class = 'form-control mr-sm-2' name = 'q' type = 'search', placeholder = 'Search Term'>
+            <button class = 'btn btn btn-outline-info my-2 my-sm-0 text-white' type = 'submit'>Search</button>
+        </form>
+    </div>       
+
 </nav>  

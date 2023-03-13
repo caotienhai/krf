@@ -1,0 +1,56 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+
+{%block title%}{{title}}{%endblock%}
+
+{% block content %}
+<br>
+<div class = 'form-group w-full max-w-7xl mx-auto px-4 mt-6'>
+    <h1 class='text-xl'>{{ title }}</h1>
+        
+    <form method = 'post' action='.'>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-3">{{ form.order_number|as_crispy_field }}</div>
+            <div class="col-4 bg-gray-100">{{ form.client|as_crispy_field }}</div>
+            <div class="col-2 bg-gray-100">{{ form.pic|as_crispy_field }}</div>
+            <div class="col-2 bg-gray-100">{{ form.team|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-2 my-2 mx-2">
+                <div class="row bg-gray-100">{{ form.ship_country|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.status|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.deposit|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.deposit_date|as_crispy_field }}</div>
+            </div>
+            <div class="col-2 my-2 mx-2">                
+                <div class="row bg-gray-100">{{ form.payment1|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.payment1_date|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.payment2|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.payment2_date|as_crispy_field }}</div>
+            </div>
+            <div class="col-2 my-2 mx-2">
+                <div class="row bg-gray-100">{{ form.load_date|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.etd_date|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.eta_date|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.booking|as_crispy_field }}</div>
+                
+            </div>
+            <div class="col-2 my-2 mx-2">
+                <div class="row bg-gray-100">{{ form.discount|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.freight|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.trucking_fee|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.local_charge|as_crispy_field }}</div>
+            </div>
+            <div class="col-2 my-2 mx-2">
+                <div class="row bg-gray-100">{{ form.invoice_number|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.invoice_date|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.declaration|as_crispy_field }}</div>
+                <div class="row bg-gray-100">{{ form.declare_date|as_crispy_field }}</div>
+            </div>       
+        </div>
+        <button class = "py-2 px-8 bg-teal-500 text-white rounded-xl">Submit</button>
+    </form>
+        <a href = {% url 'orders:list' %}>Back To Order List</a>
+</div>
+{%endblock %}

@@ -12,4 +12,6 @@ urlpatterns = [
     path('<int:pk>/add-file/',views.AddFileView.as_view(), name='add_file'),
     path('<int:pk>/convert/',views.ConvertView.as_view(), name='convert'),
     path('add-lead/',views.LeadCreateView.as_view(), name='add'),
+    path('search-lead',views.SearchLead.as_view(), name='search_lead'),
+    path('import-lead/',views.importLead, name='import'),
 ]

@@ -1,15 +1,32 @@
 {% extends 'poscrm/base.html' %}
-
+{% load crispy_forms_tags %}
 {%block title%}SignIn{%endblock%}
 
 {% block content %}
+<br>
 <div class= 'py-6 px-6'>
-    <h1 class='mb-6 text-xl'>SIGN IN HERE</h1>
-    <form method = "post" action = ".">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <div class="container animated fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <div class="card-group">
+                    <div class="card p-2 mb-2">
+                        <div class="card-body">   
+                            <h1 class='mt-6 mb-6 text-xl'>SIGN IN HERE</h1>
+                            <form method = "post" action = ".">
+                                {% csrf_token %}
+                                {{ form.username|as_crispy_field }}
+                                {{ form.password|as_crispy_field }}
 
-        <button class = "mt-6 py-4 px-8 bg-teal-500 text-white rounded-xl">Log In</button>
-    </form>
+                                <button class = "mt-6 py-1 px-8 bg-teal-500 text-white rounded-xl">Log In</button>
+                            </form>
+                            {%if request.user.username == 'haict'%}
+                            <a href = {% url 'userprofile:password_reset' %}>Forgot/reset password?</a>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {%endblock %}

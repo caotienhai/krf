@@ -1,15 +1,36 @@
 {% extends 'poscrm/base.html' %}
-
+{% load crispy_forms_tags %}
 {%block title%}SignUp{%endblock%}
 
 {% block content %}
-<h1 class='text-xl'>SIGN UP HERE</h1>
-<div class= 'py-6 px-6'>
-    <form method = "post" action = ".">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <button class = "py-4 px-8 bg-teal-500 text-white rounded-xl">Submit</button>
-    </form>
+<br>
+<div class="container animated fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <div class="card-group">
+                <div class="card p-2 mb-2">
+                    <div class="card-body">
+                        <h1 class='mt-6 text-xl'>SIGN UP HERE</h1>
+                        <form method = "post" action = ".">
+                            {% csrf_token %}
+                            <div class = "row">
+                                <div class="col-3">{{ form.username|as_crispy_field }}</div>
+                                <div class="col-5">{{ form.email|as_crispy_field }}</div>
+                            </div>
+                            <div class = "row">
+                                <div class="col-3">{{ form.first_name|as_crispy_field }}</div>
+                                <div class="col-3">{{ form.last_name|as_crispy_field }}</div>
+                            </div>
+                            <div class = "row">
+                                <div class="col-3">{{ form.password1|as_crispy_field }}</div>
+                                <div class="col-3">{{ form.password2|as_crispy_field }}</div>
+                            </div>
+                            <button class = "py-1 px-8 bg-success text-white rounded-xl">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {%endblock %}

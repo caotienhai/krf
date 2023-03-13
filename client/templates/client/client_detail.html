@@ -1,0 +1,94 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+
+{%block title%}{{ client.contact_name }}{%endblock%}
+
+{% block content %}
+<div class = 'py-4 px-6'>
+    <h1 class='mb-4 text-xl'>{{ client.contact_name }}</h1>
+    <div class="row mb-2">
+        <div class="col-3 bg-gray-200">Contact Name:</div>
+        <div class="col-3 bg-gray-200">Company Name:</div>
+        <div class="col-2 bg-gray-200">Country:</div>
+        <div class="col-2 bg-gray-200">Region:</div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3">{{ client.contact_name}}</div>
+        <div class="col-3">{{ client.company_name}}</div>
+        <div class="col-2">{{ client.country.name}}</div>
+        <div class="col-2">{{ client.region}}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-5 bg-gray-200">Address:</div>
+        <div class="col-2 bg-gray-200">Phone Number:</div>
+        <div class="col-3 bg-gray-200">Email:</div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-5">{{ client.address}}</div>
+        <div class="col-2">{{ client.phone}}</div>
+        <div class="col-3">{{ client.email}}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-5 bg-blue-500 text-white">Profile:</div>
+        <div class="col-5 bg-blue-500 text-white">Customer Care Update:</div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-5 border border-slate-300">{{ client.profile}}</div>
+        <div class="col-5 border border-slate-300">{{ client.care_update}}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4 bg-gray-200">Portfolio:</div>
+        <div class="col-3 bg-gray-200">Source:</div>
+        <div class="col-3 bg-gray-200">Modified at:</div>
+    </div>
+    <div class="row">
+        <div class="col-3">{{ client.portfolio}}</div>
+        <div class="col-3">{{ client.source}}</div>
+        <div class="col-3">{{ client.modified_at}}</div>
+    </div>
+    <hr class = "my-4">        
+    <a href={% url 'clients:edit' client.id %} class="py-2 px-4 rounded-xl bg-blue-500 text-white">Edit</a>
+    <a href="#" onclick="document.getElementById('client_delete_client').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+    <a href={% url 'clients:list' %} class="py-2 px-4 rounded-xl bg-blue-500 text-white">Back To List</a>    
+    <hr class = "my-4">
+    <div class="row mb-2">
+        <div class="col-7">
+            <h2 class="mb-6 text-3xl">Comments</h2>
+            <div class="space-y-4">
+                {% for comment in client.comments.all %}
+                    <div class= "p-6 rounded-xl">
+                        <p class = "mb-2"><strong>{{ comment.created_by }}</strong>@ {{comment.created_at}} </p>
+                        {{ comment.content }}  
+                    </div>
+                {% endfor %}
+            </div>
+
+            <form method="post" action ={% url 'clients:add_comment' client.id %}>
+                {% csrf_token %}
+                {{ commentform|crispy }}
+                <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
+            </form>
+        </div>
+        <div class="col-3">
+            <h2 class="mb-6 text-3xl">Files</h2>
+
+            <hr class = "my-4">        
+            <div class="space-y-4">
+                {% for file in client.files.all %}
+                    <div class= "p-6 rounded-xl">
+                        <p class = "mb-2"><strong>{{ file.created_by }}</strong>@ {{file.created_at}} </p>
+                        <img src="{{file.file.url}}" alt="Smiley face" width="250" height="250">
+                        <a href = {{ file.file.url }}>Download</a>
+                            
+                    </div>
+                {% endfor %}
+            </div>
+            <form method="post" action ={% url 'clients:add_file' client.id %} enctype="multipart/client-data">
+                {% csrf_token %}
+                {{ fileform.as_p }}
+                <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
+            </form>
+        </div>
+
+</div>  
+{% endblock %}

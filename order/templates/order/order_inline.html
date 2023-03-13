@@ -1,0 +1,141 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+
+{%block title%}{{title}}{%endblock%}
+
+{% block content %}
+<div class = 'form-group w-full max-w-7xl mx-auto px-4'>
+            
+    <form enctype="multipart/form-data" class="container" method="post" id="order_form">
+        {% csrf_token %}
+        <!-- main form start -->
+        <div class="card">
+            <div class="card-header card-header-secondary">
+                <h4 class="card-title">{{ title }}</h4>
+            </div>            
+            <div class="row">
+                <div class="col-3">{{ form.order_number|as_crispy_field }}</div>
+                <div class="col-4 bg-gray-100">{{ form.client|as_crispy_field }}</div>
+                <div class="col-2 bg-gray-100">{{ form.pic|as_crispy_field }}</div>
+                <div class="col-2 bg-gray-100">{{ form.team|as_crispy_field }}</div>
+            </div>
+            <div class="row">
+                <div class="col-2 my-2 mx-2">
+                    <div class="row bg-gray-100">{{ form.ship_country|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.status|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.deposit|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.deposit_date|as_crispy_field }}</div>
+                </div>
+                <div class="col-2 my-2 mx-2">                
+                    <div class="row bg-gray-100">{{ form.payment1|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.payment1_date|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.payment2|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.payment2_date|as_crispy_field }}</div>
+                </div>
+                <div class="col-2 my-2 mx-2">
+                    <div class="row bg-gray-100">{{ form.load_date|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.etd_date|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.eta_date|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.booking|as_crispy_field }}</div>
+                    
+                </div>
+                <div class="col-2 my-2 mx-2">
+                    <div class="row bg-gray-100">{{ form.discount|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.freight|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.trucking_fee|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.local_charge|as_crispy_field }}</div>
+                </div>
+                <div class="col-2 my-2 mx-2">
+                    <div class="row bg-gray-100">{{ form.invoice_number|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.invoice_date|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.declaration|as_crispy_field }}</div>
+                    <div class="row bg-gray-100">{{ form.declare_date|as_crispy_field }}</div>
+                </div>       
+            </div>
+        </div>
+        <!-- main form end-->
+        <!-- inline form for Detail start -->
+        {% with named_formsets.details as formset %}
+            {{ formset.management_form }}
+            <script type="text/html" id="details-template">   // id="inlineformsetname-template"
+                <tr id="details-__prefix__" class= "hide_all">  
+                    {% for fields in formset.empty_form.hidden_fields %}
+                        {{ fields|as_crispy_field }}
+                    {% endfor %}
+                
+                    {% for fields in formset.empty_form.visible_fields %}
+                        <td>{{fields|as_crispy_field}}</td>
+                    {% endfor %}
+                </tr>
+            </script>
+            <div class="table-responsive card mt-4">
+                <div class="card-header card-header-secondary">
+                    <h4 class="card-title">Add Details</h4>
+                </div>
+                <table class="table card-header">
+                    <thead class="text-secondary">
+                        <th>Product Code <span style="color: red;" class="required">*</span></th>
+                        <th>Quantity <span style="color: red;" class="required">*</span></th>
+                        <th>Price <span style="color: red;" class="required">*</span></th>
+                        <th>FOC</th>
+                        <th>Status</th>
+                        <th>PIC</th>
+                    </thead>
+                    <tbody id="item-details">  <!-- id="item-inlineformsetname" -->
+                        <!-- formset non forms errors -->
+                        {% for error in formset.non_form_errors %}
+                            <span style="color: red">{{ error }}</span>
+                        {% endfor %}
+                        {% for formss in formset %}
+                            {{ formss.management_form }}
+                            <tr id="details-{{ forloop.counter0 }}" class= "hide_all">  <!-- id="inlineformsetname-counter" -->
+                                {{ formss.id }}
+                                {% for field in formss.visible_fields %}
+                                    <td>
+                                        {{field}}
+                                        {% for error in field.errors %}
+                                            <span style="color: red">{{ error }}</span>
+                                        {% endfor %}
+                                        
+                                        {% comment %} {{ field.DELETE }} {% endcomment %}
+                                    </td>
+                                {% endfor %}
+                                {% comment %} for delete {% endcomment %}
+                                {% if formss.instance.pk %}
+                                    <td>
+                                        <form id="detail_delete_form" method="post" action={% url 'orders:delete_detail' formss.instance.pk %}>
+                                            {% csrf_token %}
+                                        </form>
+                                        <a href="#" onclick="document.getElementById('detail_delete_form').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+                                    </td>            
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="#" id="add-detail-button" class="btn btn-secondary add-details">Add More Item</a> <!-- id="add-inlineformsetname-button" -->
+            </div>        
+        {% endwith %}
+        <!-- inline form for Details end -->
+  
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            // when user clicks add more btn of details
+            $('.add-details').click(function(ev) {
+                ev.preventDefault();
+                var count = $('#item-details').children().length;
+                var tmplMarkup = $('#details-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('#item-details').append(compiledTmpl);
+                // update form count
+                $('#id_details-TOTAL_FORMS').attr('value', count+1);
+            });
+        });
+    </script>
+</div>
+{%endblock %}

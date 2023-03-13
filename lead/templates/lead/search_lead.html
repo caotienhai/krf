@@ -1,0 +1,33 @@
+{% extends 'poscrm/base.html' %}
+
+{%block title%}Search for leads{%endblock%}
+
+{% block content %}
+<br>
+{% if object_list %}
+    <br>
+    <h3 class='mt-6 py-2'>Search results:</h3><br/>
+    <div class = 'py-2'>        
+        <div class ='flex justify-between'>
+            <p class = 'py-1 px-6 bg-gray-200 font-semibold w-full'>Contact Name</p>
+            <p class = 'py-1 bg-gray-200 font-semibold w-full'>Company Name</p>
+            <p class = 'py-1 bg-gray-200 font-semibold w-full'>Country</p>
+            <p class = 'py-1 bg-gray-200 font-semibold w-full'>Priority</p>
+            <p class = 'py-1 bg-gray-200 font-semibold w-full'>Status</p>     
+        </div> 
+        {% for item in object_list %}
+        <div class ='flex justify-between'>
+            <p class = "py-1 px-6 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'leads:detail' item.id %}>{{ item.contact_name }}</a></p>
+            <p class = "py-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.company_name }}</p>
+            <p class = "py-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.country }}</p>
+            <p class = "py-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.get_priority_display }}</p>
+            <p class = "py-1 w-full {% cycle 'bg-gray-100' '' %}">{{ item.get_status_display }}</p>
+        </div>        
+    </div>
+    {% endfor %}
+{% else %}
+
+<h1 class='mt-6 py-2'>Not found .................</h1>
+
+{% endif %}
+{%endblock %}

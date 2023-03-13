@@ -1,94 +1,116 @@
 {% extends 'poscrm/base.html' %}
-
+{% load crispy_forms_tags %}
 {%block title%}{{ lead.contact_name }}{%endblock%}
 
 {% block content %}
-    <div class = 'py-4 px-6'>
-        <h1 class='mb-4 text-xl'>{{ lead.contact_name }}</h1>
+<br>
+    <div class = 'py-4 px-6 mt-6'>
+        <h2 class='mb-4 text-xl'>Lead details page</h2>
+        <div class="row mb-1 text-muted small">
+            <div class="col-3">Contact Name:</div>
+            <div class="col-3">Company Name:</div>
+            <div class="col-2">Country:</div>
+            <div class="col-1">Region:</div>
+            <div class="col-1">PIC:</div>
+            <div class="col-1">Team:</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-3 px-4">{{ lead.contact_name}}</div>
+            <div class="col-3 px-4">{{ lead.company_name}}</div>
+            <div class="col-2 px-4">{{ lead.country.name}}</div>
+            <div class="col-1 px-4">{{ lead.region}}</div>
+            <div class="col-1 px-4">{{ lead.created_by.first_name}}</div>
+            <div class="col-1 px-4">{{ lead.team.name}}</div>
+        </div> 
+        <hr>
+        <div class="row mb-1 text-muted small">
+            <div class="col-5">Address:</div>
+            <div class="col-2">Phone Number:</div>
+            <div class="col-3">Email:</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-5 px-4">{{ lead.address}}</div>
+            <div class="col-2 px-4">{{ lead.phone}}</div>
+            <div class="col-3 px-4">{{ lead.email}}</div>
+        </div>
+        <hr>
+        <div class="row mb-1">
+            <div class="col-5 bg-blue-500 text-white">Lead Profile:</div>
+            <div class="col-5 bg-blue-500 text-white">Lead Care Update:</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-5 border border-slate-300">{{ lead.profile}}</div>
+            <div class="col-5 border border-slate-300">{{ lead.care_update}}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2 bg-gray-200">Portfolio:</div>
+            <div class="col-2 bg-gray-200">Source:</div>
+            <div class="col-2 bg-gray-200">Priority:</div>
+            <div class="col-2 bg-gray-200">Status:</div>
+            <div class="col-2 bg-gray-200">Modified at:</div>
+        </div>
+        <div class="row">
+            <div class="col-2">{{ lead.portfolio}}</div>
+            <div class="col-2">{{ lead.source}}</div>
+            <div class="col-2">{{ lead.get_priority_display}}</div>
+            <div class="col-2">{{ lead.get_status_display}}</div>
+            <div class="col-2">{{ lead.modified_at}}</div>
+        </div>
         
-        {% if lead.profile %}
-            <p class = 'font-semibold'>Profile:</p>
-            <p>{{ lead.profile }}</p>
-        {% endif %}
-        
-        <p class = 'font-semibold'>Company Name</p>
-        <p class = 'mb-2'>{{ lead.company_name }}</p>
-
-        <p class = 'font-semibold'>Address</p>
-        <p class = 'mb-2'>{{ lead.address }}</p>
-
-        <p class = 'font-semibold'>Country</p>
-        <p class = 'mb-2'>{{ lead.country }}</p>
-
-        <p class = 'font-semibold'>Phone</p>
-        <p class = 'mb-2'>{{ lead.phone }}</p>
-
-        <p class = 'font-semibold'>Email</p>
-        <p class = 'mb-2'>{{ lead.email }}</p>
-
-        <p class = 'font-semibold'>Priority</p>
-        <p class = 'mb-2'>{{ lead.get_priority_display }}</p>
-
-        <p class = 'font-semibold'>Status</p>
-        <p>{{ lead.get_status_display }}</p>
-
-        <p class = 'font-semibold'>Created at</p>
-        <p class = 'mb-2'>{{ lead.created_at|date:'M-d-Y' }}</p>
-
-        <p class = 'font-semibold'>Modified at</p>
-        <p class = 'mb-6'>{{ lead.modified_at }}</p>
-
         <hr class = "my-4">
 
         <form id="lead_delete_form" method="post" action={% url 'leads:delete' lead.id %}>
             {% csrf_token %}
         </form>
-
+ 
         <a href={% url 'leads:convert' lead.id %} class="py-2 px-4 rounded-xl bg-blue-500 text-white">Convert to client</a>
         <a href={% url 'leads:edit' lead.id %} class="py-2 px-4 rounded-xl bg-teal-500 text-white">Edit Lead</a>
-        <a href="#" onclick="do cument.getElementById('lead_delete_form').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+        <a href="#" onclick="document.getElementById('lead_delete_form').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+        <a href={% url 'leads:list' %} class="py-2 px-4 rounded-xl bg-blue-500 text-white">Back To List</a>
+
+        <hr class = "my-4">
+
+        <div class="row mb-2">
+            <div class="col-7">
+                <h2 class="mb-6 text-3xl">Comments</h2>
+                <hr class = "my-4">
+                <div class="space-y-4">
+                    {% for comment in lead.comments.all %}
+                        <div class="bg-gray-100 p-6 rounded-xl">
+                            <p class = "mb-2"><strong>{{ comment.created_by }}</strong>@ {{comment.created_at}} </p>
+                            
+                            {{ comment.content }}
+                            
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <form method="post" action ={% url 'leads:add_comment' lead.id %}>
+                    {% csrf_token %}
+                    {{ commentform|crispy }}
+                    <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
+                </form>
+            </div>           
         
-        <hr class = "my-4">
-        <h2 class="mb-6 text-3xl">Comments</h2>
-
-        <div class="space-y-4">
-            {% for comment in lead.comments.all %}
-                <div class="bg-gray-100 p-6 rounded-xl">
-                    <p class = "mb-2"><strong>{{ comment.created_by }}</strong>@ {{comment.created_at}} </p>
-                    
-                    {{ comment.content }}
-                    
+            <div class="col-3">
+                <h2 class="mb-6 text-3xl">Files</h2>
+                <hr class = "my-4">        
+                <div class="space-y-4">
+                    {% for file in lead.files.all %}
+                        <div class="bg-gray-100 p-6 rounded-xl">
+                            <p class = "mb-2"><strong>{{ file.created_by }}</strong>@ {{file.created_at}} </p>
+                            <img src="{{file.file.url}}" alt="Smiley face" width="250" height="250">
+                            <a href = {{ file.file.url }}>Download</a>
+                            
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+                <form method="post" action ={% url 'leads:add_file' lead.id %} enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ fileform.as_p }}
+                    <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
+                </form>
+            </div>
         </div>
-
-        <form method="post" action ={% url 'leads:add_comment' lead.id %}>
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
-        </form>
-
-        <hr class = "my-4">
-        <h2 class="mb-6 text-3xl">Files</h2>
-
-        <hr class = "my-4">        
-        <div class="space-y-4">
-            {% for file in lead.files.all %}
-                <div class="bg-gray-100 p-6 rounded-xl">
-                    <p class = "mb-2"><strong>{{ file.created_by }}</strong>@ {{file.created_at}} </p>
-                    
-                    <a href = {{ file.file.url }}>Download</a>
-                    
-                </div>
-            {% endfor %}
-        </div>
-        <form method="post" action ={% url 'leads:add_file' lead.id %} enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ fileform.as_p }}
-            <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
-        </form>
-
-        <a href = {% url 'leads:list' %}>Back To Leads List</a>
-
     </div>  
 {% endblock %}

@@ -4,12 +4,13 @@ from . import views
 app_name = 'clients'
 
 urlpatterns = [
-    path('',views.clients_list, name='list'),
-    path('<int:pk>/',views.clients_detail, name='detail'),
-    path('add-client/',views.add_client, name='add'),
-    path('<int:pk>/add-comment/',views.clients_detail, name='add_comment'),
-    path('<int:pk>/add-file/',views.clients_add_file, name='add_file'),
-    path('<int:pk>/delete/',views.clients_delete, name='delete'),
-    path('<int:pk>/edit/',views.clients_edit, name='edit'),
+    path('',views.ClientListView.as_view(), name='list'), 
+    path('<int:pk>/',views.ClientDetailView.as_view(), name='detail'),
+    path('add-client/',views.ClientCreateView.as_view(), name='add'),
+    path('<int:pk>/add-comment/',views.AddCommentView.as_view(), name='add_comment'),
+    path('<int:pk>/add-file/',views.AddFileView.as_view(), name='add_file'),
+    path('<int:pk>/delete/',views.ClientDeleteView.as_view(), name='delete'),
+    path('<int:pk>/edit/',views.ClientUpdateView.as_view(), name='edit'),
+    path('import-client/',views.importClient, name='import'),
     path('export/',views.clients_export, name='export'),
 ]
