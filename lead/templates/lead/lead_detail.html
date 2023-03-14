@@ -17,7 +17,7 @@
         <div class="row mb-4">
             <div class="col-3 px-4">{{ lead.contact_name}}</div>
             <div class="col-3 px-4">{{ lead.company_name}}</div>
-            <div class="col-2 px-4">{{ lead.country.name}}</div>
+            <div class="col-2 px-4">{{ lead.country.name|truncatechars:12}}</div>
             <div class="col-1 px-4">{{ lead.region}}</div>
             <div class="col-1 px-4">{{ lead.created_by.first_name}}</div>
             <div class="col-1 px-4">{{ lead.team.name}}</div>
@@ -28,7 +28,7 @@
             <div class="col-2">Phone Number:</div>
             <div class="col-3">Email:</div>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-1">
             <div class="col-5 px-4">{{ lead.address}}</div>
             <div class="col-2 px-4">{{ lead.phone}}</div>
             <div class="col-3 px-4">{{ lead.email}}</div>
@@ -39,15 +39,16 @@
             <div class="col-5">Lead Care Update:</div>
         </div>
         <div class="row mb-4">
-            <div class="col-5 border border-slate-300">{{ lead.profile}}</div>
-            <div class="col-5 border border-slate-300">{{ lead.care_update}}</div>
+            <div class="col-5">{{ lead.profile}}</div>
+            <div class="col-5">{{ lead.care_update}}</div>
         </div>
+        <hr>
         <div class="row mb-2 text-muted small">
-            <div class="col-2 border border-slate-300">Portfolio:</div>
-            <div class="col-2 border border-slate-300">Source:</div>
-            <div class="col-2 border border-slate-300">Priority:</div>
-            <div class="col-2 border border-slate-300">Status:</div>
-            <div class="col-2 border border-slate-300">Modified at:</div>
+            <div class="col-2">Portfolio:</div>
+            <div class="col-2">Source:</div>
+            <div class="col-2">Priority:</div>
+            <div class="col-2">Status:</div>
+            <div class="col-2">Modified at:</div>
         </div>
         <div class="row">
             <div class="col-2">{{ lead.portfolio}}</div>
@@ -59,15 +60,15 @@
         
         <hr class = "my-4">
         <div class="row">
-            <a href={% url 'leads:edit' lead.id %} class="py-2 px-4 mx-2 rounded-xl bg-teal-500 text-white">Edit Lead</a>
+            <a href={% url 'leads:edit' lead.id %} class="py-1 px-4 mx-2 rounded-xl bg-teal-500 text-white">Edit Lead</a>
             {% if request.user.is_superuser %}
-            <a href={% url 'leads:convert' lead.id %} class="py-2 px-4 mx-2 rounded-xl bg-blue-500 text-white">Convert to client</a>
+            <a href={% url 'leads:convert' lead.id %} class="py-1 px-4 mx-2 rounded-xl bg-success text-white">Convert to client</a>
             <form id="lead_delete_form" method="post" action={% url 'leads:delete' lead.id %}>
                 {% csrf_token %}
             </form>
-            <a href="#" onclick="document.getElementById('lead_delete_form').submit();" class="py-2 px-4 mx-2 rounded-xl bg-red-500 text-white">Delete</a>
+            <a href="#" onclick="document.getElementById('lead_delete_form').submit();" class="py-1 px-4 mx-2 rounded-xl bg-red-500 text-white">Delete</a>
             {%endif%}
-            <a href={% url 'leads:list' %} class="py-2 px-4 mx-2 rounded-xl bg-blue-500 text-white">Back To List</a>
+            <a href={% url 'leads:list' %} class="py-1 px-4 mx-2 rounded-xl bg-blue-500 text-white">Back To List</a>
         </div>
         <hr class = "my-4">
 
