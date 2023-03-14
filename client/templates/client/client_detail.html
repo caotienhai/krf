@@ -6,29 +6,31 @@
 {% block content %}
 <div class = 'py-4 px-6'>
     <h1 class='mb-4 text-xl'>{{ client.contact_name }}</h1>
-    <div class="row mb-2">
-        <div class="col-3 bg-gray-200">Contact Name:</div>
-        <div class="col-3 bg-gray-200">Company Name:</div>
-        <div class="col-2 bg-gray-200">Country:</div>
-        <div class="col-2 bg-gray-200">Region:</div>
+    <div class="row mb-1 text-muted small">
+        <div class="col-3">Contact Name:</div>
+        <div class="col-3">Company Name:</div>
+        <div class="col-2">Country:</div>
+        <div class="col-2">Region:</div>
     </div>
+    <hr>
     <div class="row mb-4">
         <div class="col-3">{{ client.contact_name}}</div>
         <div class="col-3">{{ client.company_name}}</div>
         <div class="col-2">{{ client.country.name}}</div>
         <div class="col-2">{{ client.region}}</div>
     </div>
-    <div class="row mb-2">
-        <div class="col-5 bg-gray-200">Address:</div>
-        <div class="col-2 bg-gray-200">Phone Number:</div>
-        <div class="col-3 bg-gray-200">Email:</div>
+    <div class="row mb-1 text-muted small">
+        <div class="col-5">Address:</div>
+        <div class="col-2">Phone Number:</div>
+        <div class="col-3">Email:</div>
     </div>
     <div class="row mb-4">
         <div class="col-5">{{ client.address}}</div>
         <div class="col-2">{{ client.phone}}</div>
         <div class="col-3">{{ client.email}}</div>
     </div>
-    <div class="row mb-2">
+    <hr>
+    <div class="row mb-2 text-muted small">
         <div class="col-5 bg-blue-500 text-white">Profile:</div>
         <div class="col-5 bg-blue-500 text-white">Customer Care Update:</div>
     </div>
@@ -36,10 +38,11 @@
         <div class="col-5 border border-slate-300">{{ client.profile}}</div>
         <div class="col-5 border border-slate-300">{{ client.care_update}}</div>
     </div>
-    <div class="row mb-2">
-        <div class="col-4 bg-gray-200">Portfolio:</div>
-        <div class="col-3 bg-gray-200">Source:</div>
-        <div class="col-3 bg-gray-200">Modified at:</div>
+    <hr>
+    <div class="row mb-1 text-muted small">
+        <div class="col-4">Portfolio:</div>
+        <div class="col-3">Source:</div>
+        <div class="col-3">Modified at:</div>
     </div>
     <div class="row">
         <div class="col-3">{{ client.portfolio}}</div>

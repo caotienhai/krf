@@ -34,20 +34,20 @@
             <div class="col-3 px-4">{{ lead.email}}</div>
         </div>
         <hr>
-        <div class="row mb-1">
-            <div class="col-5 bg-blue-500 text-white">Lead Profile:</div>
-            <div class="col-5 bg-blue-500 text-white">Lead Care Update:</div>
+        <div class="row mb-1 text-muted small">
+            <div class="col-5">Lead Profile:</div>
+            <div class="col-5">Lead Care Update:</div>
         </div>
         <div class="row mb-4">
             <div class="col-5 border border-slate-300">{{ lead.profile}}</div>
             <div class="col-5 border border-slate-300">{{ lead.care_update}}</div>
         </div>
-        <div class="row mb-2">
-            <div class="col-2 bg-gray-200">Portfolio:</div>
-            <div class="col-2 bg-gray-200">Source:</div>
-            <div class="col-2 bg-gray-200">Priority:</div>
-            <div class="col-2 bg-gray-200">Status:</div>
-            <div class="col-2 bg-gray-200">Modified at:</div>
+        <div class="row mb-2 text-muted small">
+            <div class="col-2 border border-slate-300">Portfolio:</div>
+            <div class="col-2 border border-slate-300">Source:</div>
+            <div class="col-2 border border-slate-300">Priority:</div>
+            <div class="col-2 border border-slate-300">Status:</div>
+            <div class="col-2 border border-slate-300">Modified at:</div>
         </div>
         <div class="row">
             <div class="col-2">{{ lead.portfolio}}</div>
@@ -59,9 +59,9 @@
         
         <hr class = "my-4">
         <div class="row">
-            <a href={% url 'leads:convert' lead.id %} class="py-2 px-4 mx-2 rounded-xl bg-blue-500 text-white">Convert to client</a>
             <a href={% url 'leads:edit' lead.id %} class="py-2 px-4 mx-2 rounded-xl bg-teal-500 text-white">Edit Lead</a>
             {% if request.user.is_superuser %}
+            <a href={% url 'leads:convert' lead.id %} class="py-2 px-4 mx-2 rounded-xl bg-blue-500 text-white">Convert to client</a>
             <form id="lead_delete_form" method="post" action={% url 'leads:delete' lead.id %}>
                 {% csrf_token %}
             </form>
