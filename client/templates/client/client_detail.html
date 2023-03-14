@@ -46,9 +46,15 @@
         <div class="col-3">{{ client.source}}</div>
         <div class="col-3">{{ client.modified_at}}</div>
     </div>
-    <hr class = "my-4">        
+    <hr class = "my-4">
+    
+    {% if request.user.is_superuser %}
     <a href={% url 'clients:edit' client.id %} class="py-2 px-4 rounded-xl bg-blue-500 text-white">Edit</a>
+    <form id="client_delete_form" method="post" action={% url 'clients:delete' lead.id %}>
+        {% csrf_token %}
+    </form>
     <a href="#" onclick="document.getElementById('client_delete_client').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+    {%endif%}
     <a href={% url 'clients:list' %} class="py-2 px-4 rounded-xl bg-blue-500 text-white">Back To List</a>    
     <hr class = "my-4">
     <div class="row mb-2">
