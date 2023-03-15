@@ -11,14 +11,14 @@
         <div class="col-3">Company Name:</div>
         <div class="col-2">Country:</div>
         <div class="col-2">Region:</div>
-    </div>
-    <hr>
+    </div>    
     <div class="row mb-2">
         <div class="col-3">{{ client.contact_name}}</div>
         <div class="col-3">{{ client.company_name}}</div>
         <div class="col-2">{{ client.country.name}}</div>
         <div class="col-2">{{ client.region}}</div>
     </div>
+    <hr>
     <div class="row mb-1 text-muted small">
         <div class="col-5">Address:</div>
         <div class="col-2">Phone Number:</div>
@@ -60,7 +60,7 @@
         {%endif%}
         <a href={% url 'clients:list' %} class="py-1 px-4 mx-2 rounded-xl bg-blue-500 text-white">Back To List</a>    
     </div>
-        <hr class = "my-4">
+        <hr class = "my-2">
     <div class="row mb-2">
         <div class="col-7">
             <h2 class="mb-6 text-3xl">Comments</h2>

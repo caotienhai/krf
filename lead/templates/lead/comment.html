@@ -1,0 +1,35 @@
+{% extends 'poscrm/base.html' %}
+{%block title%}My Tasks{%endblock%}
+
+{% block content %}
+<br>
+<div class="mt-6 col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <strong>My Tasks</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class ='mt-6 flex justify-between'>
+                            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Lead Contact Name</p>
+                            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Company Name</p>
+                            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Country</p>
+                            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Caring Actions</p>
+                            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>PIC</p>
+                            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Team</p> 
+                            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Actions Date</p>                
+                        </div>
+                        {% for comment in object_list %}
+                        <div class ='flex justify-between'>
+                            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'leads:detail' comment.lead.id %}>{{ comment.lead.contact_name }}</a></p>
+                            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.lead.company_name }}</p>
+                            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.lead.country }}</p>
+                            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.content|truncatechars:50 }}</p>
+                            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.created_by }}</p>
+                            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.team.name }}</p>
+                            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.created_at }}</p>
+                        </div>
+                        {%endfor%}

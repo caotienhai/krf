@@ -168,7 +168,7 @@ class ConvertView(View):
         messages.success(request,'The Lead Has Been Converted!')
         return redirect('leads:list')
     
-class SearchLead(ListView):
+class SearchLead(LoginRequiredMixin, ListView):
     model = Lead
     template_name = "lead/search_lead.html"
 
@@ -179,6 +179,20 @@ class SearchLead(ListView):
         )
         return object_list
 
+class CommentList(LoginRequiredMixin, ListView):
+    model = ClientComment
+    template_name = "lead/comment.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+     
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            comments = ClientComment.objects.all().order_by('-created_at').select_related('lead','team') 
+        else:            
+            comments = ClientComment.objects.all().filter(create_by = self.request.user).select_related('lead','team')
+        return comments.order_by('-created_at')   
+    
 @login_required 
 def importLead(request):
     if request.method == 'POST':
