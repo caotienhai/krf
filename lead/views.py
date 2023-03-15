@@ -178,15 +178,13 @@ class SearchLead(LoginRequiredMixin, ListView):
             Q(company_name__icontains=query) | Q(contact_name__icontains=query)
         )
         return object_list
-
-class CommentList(LoginRequiredMixin, ListView):
+        
+class CommentList(LoginRequiredMixin, FilterView):
     model = Comment
-    template_name = "lead/comment.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-     
-    def get_queryset(self):
+    template_name = 'lead/comment.html'
+    context_object_name='comments'
+         
+    def get_queryset(self):        
         if self.request.user.is_superuser:
             comments = Comment.objects.all().order_by('-created_at').select_related('lead','team') 
         else:            
