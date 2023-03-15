@@ -9,7 +9,7 @@
     {% if object_list %}
         <form action="" method="get">
             <div class="row">
-                <div class="col-2 bg-gray-100">{{ filter.form.lead.company_name | as_crispy_field }}</div>
+                <div class="col-2 bg-gray-100">{{ filter.form.lead | as_crispy_field }}</div>
                 <div class="col-2 bg-gray-100">{{ filter.form.team | as_crispy_field }}</div>
                 <div class="col-2 bg-gray-100">{{ filter.form.created_by | as_crispy_field }}</div>                    
             </div>
