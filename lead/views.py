@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django_filters.views import FilterView
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
-from .models import Lead, Team, LeadFilter, User
+from .models import Lead, Team, LeadFilter, User, Comment
 from client.models import Client, Comment as ClientComment, ClientFile
 from .forms import AddCommentForm, AddFileForm, AddLeadForm
 
@@ -180,7 +180,7 @@ class SearchLead(LoginRequiredMixin, ListView):
         return object_list
 
 class CommentList(LoginRequiredMixin, ListView):
-    model = ClientComment
+    model = Comment
     template_name = "lead/comment.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -188,9 +188,9 @@ class CommentList(LoginRequiredMixin, ListView):
      
     def get_queryset(self):
         if self.request.user.is_superuser:
-            comments = ClientComment.objects.all().order_by('-created_at').select_related('lead','team') 
+            comments = Comment.objects.all().order_by('-created_at').select_related('lead','team') 
         else:            
-            comments = ClientComment.objects.all().filter(create_by = self.request.user).select_related('lead','team')
+            comments = Comment.objects.all().filter(create_by = self.request.user).select_related('lead','team')
         return comments.order_by('-created_at')   
     
 @login_required 
