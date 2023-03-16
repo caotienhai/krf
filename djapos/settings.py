@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_countries',
     'crispy_forms',
     'crispy_bootstrap4',
+    'bootstrap_datepicker_plus',
     'poscrm',
     'team',
     'dashboard',

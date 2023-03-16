@@ -8,10 +8,10 @@
                 <div class="card-group">
                     <div class="card p-2 mb-2">
                         <div class="card-body">
-                            <h3>{{title}}</h3>                                 
+                            <h3>{{title}}</h3>   
+                            {{form.media}}                                
                             <form action="" method="post">
-                                {% csrf_token %}
-                                {{form.media}}  
+                                {% csrf_token %}                                
                                 <div class="row">
                                     <div class="form-group w-1/2">
                                         <div class="input-group">

@@ -23,10 +23,9 @@
                 </tr>
             </tbody>            
         </table>
-        
+        {{form.media}}
         <form action="" method="post">
-            {% csrf_token %}
-            {{form.media}}
+            {% csrf_token %}            
             <div class="row">
                 <div class="form-group">
                     <div class="input-group">
