@@ -5,18 +5,18 @@
 {% block content %}
 <br>
 <div class="mt-6 col-md-12">
-    <h3>Caring Actions</h3>
+    <h3>Caring Actions</h3>    
+    <form action="" method="get">
+        <div class="row">
+            <div class="col-2 bg-gray-100">{{ filter.form.lead | as_crispy_field }}</div>
+            <div class="col-2 bg-gray-100">{{ filter.form.team | as_crispy_field }}</div>
+            <div class="col-2 bg-gray-100">{{ filter.form.created_by | as_crispy_field }}</div>                    
+        </div>
+        <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter"/>
+    </form>
     {% if object_list %}
-        <form action="" method="get">
-            <div class="row">
-                <div class="col-2 bg-gray-100">{{ filter.form.lead | as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ filter.form.team | as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ filter.form.created_by | as_crispy_field }}</div>                    
-            </div>
-            <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter"/>
-        </form>
         <div class ='mt-6 flex justify-between'>
-            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Lead Contact Name</p>
+            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Lead Contact</p>
             <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Company Name</p>
             <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Country</p>
             <p class = 'py-1 px-4 bg-gray-200 font-semibold w-full'>Caring Actions</p>
@@ -35,6 +35,9 @@
             <p class = "py-1 px-3 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.created_at }}</p>
         </div>
         {%endfor%}
+    {%else%}
+    <br><br>
+    <h1>There are no actions here!!!</h1>
     {%endif%}
 </div>
 {%endblock%}
