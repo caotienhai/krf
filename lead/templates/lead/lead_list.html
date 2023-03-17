@@ -11,12 +11,15 @@
             <form action="" method="get">
                 <div class="row">
                     <div class="col-2 bg-gray-100">{{ filter.form.country | as_crispy_field }}</div>
-                    <div class="col-2 bg-gray-100">{{ filter.form.region | as_crispy_field }}</div>
+                    <div class="col-1 bg-gray-100">{{ filter.form.region | as_crispy_field }}</div>
                     <div class="col-2 bg-gray-100">{{ filter.form.portfolio | as_crispy_field }}</div>
                     <div class="col-2 bg-gray-100">{{ filter.form.source | as_crispy_field }}</div>
                     <div class="col-1 bg-gray-100">{{ filter.form.priority | as_crispy_field }}</div>
-                    <div class="col-2 bg-gray-100">{{ filter.form.status | as_crispy_field }}</div> 
+                    <div class="col-1 bg-gray-100">{{ filter.form.status | as_crispy_field }}</div> 
                     <div class="col-2 bg-gray-100">{{ filter.form.created_by | as_crispy_field }}</div>                    
+                    {%if request.user.is_superuser%}
+                        <div class="col-1 bg-gray-100">{{ filter.form.team | as_crispy_field }}</div>
+                    {%endif%}
                 </div>
                 <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Leads"/>
             </form>

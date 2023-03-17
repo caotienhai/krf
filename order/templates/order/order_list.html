@@ -18,32 +18,37 @@
                 </div>
                 <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Orders"/>
             </form>
-            <div class ='mt-4 flex justify-between'>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Order Number</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Customer</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Ship Country</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Loading Date</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>ETD Date</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Status</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>PIC</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Team</p>
-                <p class = 'py-2 px-2 bg-gray-200 font-semibold w-full'>Order Total</p>
-            </div>
+            <table class="table-auto mt-2 mb-4 border-collapse border border-slate-400">
+                <thead>
+                    <tr class = 'bg-teal-500 text-white'>
+                        <th class = 'py-1 px-2 border border-slate-400'>Order Number</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>Customer</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>Ship Country</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>Loading Date</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>ETD Date</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>Status</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>PIC</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>Team</th>
+                        <th class = 'py-1 px-2 border border-slate-400'>Order Total</th>
+                    </tr>              
+                </thead>            
+                <tbody>            
             
-            {% for order in filter.qs %}
-                <div class ='flex justify-between'>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'orders:items' order.id %}>{{ order.order_number }}</a></p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'clients:detail' order.client.id %}>{{ order.client }}</a></p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ order.ship_country.name }}</p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ order.load_date }}</p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ order.etd_date }}</p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ order.status }}</p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ order.pic }}</p>
-                    <p class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ order.team }}</p>
-                    <p align = "right" class = "py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">${{ order.order_total }}</p>
-                </div>                            
-            {% endfor %}
-
+                    {% for order in filter.qs %}
+                    <tr>               
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}"><a href={% url 'orders:items' order.id %}>{{ order.order_number }}</a></p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}"><a href={% url 'clients:detail' order.client.id %}>{{ order.client }}</a></p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ order.ship_country.name }}</p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ order.load_date }}</p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ order.etd_date }}</p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ order.status }}</p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ order.pic.first_name }}</p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ order.team }}</p>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">${{ order.order_total }}</p>
+                    </tr>
+                    {% endfor %}
+                </tbody>                            
+            </table>
         {% else %}
             <p class='mt-6 px-2'>There are no order here!!!</p>
         {% endif %}
