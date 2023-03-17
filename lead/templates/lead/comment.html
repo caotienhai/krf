@@ -15,29 +15,35 @@
         <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter"/>
     </form>
     {% if object_list %}
-        <div class ='mt-6 flex justify-between'>
-            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Lead Contact</p>
-            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Company Name</p>
-            <p class = 'py-1 px-2 bg-gray-200 font-semibold w-full'>Country</p>
-            <p class = 'py-1 px-4 bg-gray-200 font-semibold w-full'>Caring Actions</p>
-            <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>PIC</p>
-            <p class = 'py-1 px-1 bg-gray-200 font-semibold w-full'>Team</p> 
-            <p class = 'py-1 px-3 bg-gray-200 font-semibold w-full'>Actions Date</p>                
-        </div>
+        <table class="table-auto mt-2 mb-4 border-collapse border border-slate-400">
+        <thead>
+            <tr class = 'bg-teal-500 text-white'>
+                <th class = "py-1 px-2 border border-slate-400">Lead Contact</th>
+                <th class = "py-1 px-2 border border-slate-400">Company Name</th>
+                <th class = "py-1 px-2 border border-slate-400">Country</th>
+                <th class = "py-1 px-2 border border-slate-400">Caring Actions</th>
+                <th class = "py-1 px-2 border border-slate-400">PIC</th>
+                <th class = "py-1 px-2 border border-slate-400">Team</th>
+                <th class = "py-1 px-2 border border-slate-400">Actions Date</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for comment in filter.qs %}
-        <div class ='flex justify-between'>
-            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}"><a href={% url 'leads:detail' comment.lead.id %}>{{ comment.lead.contact_name }}</a></p>
-            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.lead.company_name }}</p>
-            <p class = "py-1 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.lead.country }}</p>
-            <p class = "py-1 px-4 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.content|truncatechars:50 }}</p>
-            <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.created_by }}</p>
-            <p class = "py-1 px-1 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.team.name }}</p>
-            <p class = "py-1 px-3 w-full {% cycle 'bg-gray-100' '' %}">{{ comment.created_at }}</p>
-        </div>
+            <tr>
+                <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}"><a href={% url 'leads:detail' comment.lead.id %}>{{ comment.lead.contact_name }}</a></td>
+                <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ comment.lead.company_name }}</td>
+                <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ comment.lead.country }}</td>
+                <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ comment.content|truncatechars:50 }}</td>
+                <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ comment.created_by }}</td>
+                <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ comment.team.name }}</td>
+                <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ comment.created_at }}</td>
+            </tr>
         {%endfor%}
+        </tbody>
+    </table>
     {%else%}
-    <br><br>
-    <h1>There are no actions here!!!</h1>
+        <br><br>
+        <h1>There are no actions here!!!</h1>
     {%endif%}
 </div>
 {%endblock%}
