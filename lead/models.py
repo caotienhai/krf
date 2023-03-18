@@ -39,8 +39,8 @@ class Lead(models.Model):
     source = models.CharField(max_length=50,blank=True,null=True, choices=CHOICE_SOURCE)
     converted_to_client = models.BooleanField(default=False)
     created_by = models.ForeignKey(User, related_name='leads',on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modify_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    modify_at = models.DateField(auto_now=True)
      
     class Meta:
         ordering = ('contact_name',)
@@ -53,7 +53,7 @@ class Comment(models.Model):
     lead = models.ForeignKey(Lead, related_name='comments', on_delete=models.CASCADE)
     content = models.TextField(blank=True,null=True)
     created_by = models.ForeignKey(User, related_name='lead_comments', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
     
     def __str__(self):
         return self.lead.company_name
@@ -63,7 +63,7 @@ class LeadFile(models.Model):
     lead = models.ForeignKey(Lead, related_name='lead_files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='leadfiles')
     created_by = models.ForeignKey(User, related_name='lead_files', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
     
     def __str__(self):
         return self.lead.company_name

@@ -48,8 +48,8 @@ class Product(models.Model):
     ctn_height = models.IntegerField(blank=True,null=True, default=300)
     status = models.CharField(max_length=24,choices=CHOICE_STATUS,default='Active')
     created_by = models.ForeignKey(User, related_name='products',default='haict',on_delete=models.SET_DEFAULT)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modify_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    modify_at = models.DateField(auto_now=True)
     
     class Meta:
         ordering = ('product_code',)
@@ -61,7 +61,7 @@ class ProductFile(models.Model):
     product = models.ForeignKey(Product, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='productfiles') 
     created_by = models.ForeignKey(User, related_name='product_files', default='haict', on_delete=models.SET_DEFAULT)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
     
     def __str__(self):
         return self.product.english_name

@@ -89,8 +89,8 @@ class OrderDetail(models.Model):
 
     item_status = models.CharField(max_length=24,choices=CHOICE_STATUS,default='Temporary')    
     created_by = models.ForeignKey(User, related_name='orderdetails',default='haict',on_delete=models.SET_DEFAULT)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modify_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    modify_at = models.DateField(auto_now=True)
     
     class Meta:
         ordering = ('product_code',)
