@@ -56,7 +56,6 @@ class LeadUpdateView(LoginRequiredMixin,UpdateView):
     
     def get_queryset(self):
         queryset = super(LeadUpdateView, self).get_queryset()
-        print(queryset.filter(pk=self.kwargs.get('pk')))
         return queryset.filter(pk=self.kwargs.get('pk'))
         
 class LeadCreateView(LoginRequiredMixin,CreateView):
@@ -66,18 +65,12 @@ class LeadCreateView(LoginRequiredMixin,CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        team = Team.objects.filter(created_by=self.request.user)[0]
-        context['team'] = team
         context['title'] = 'Add lead'
 
         return context
  
     def form_valid(self, form):
-        team = Team.objects.filter(created_by=self.request.user)[0]
-
         self.object = form.save(commit=False)
-        self.object.created_by = self.request.user
-        self.object.team = team
         self.object.save()
         
         return redirect(self.get_success_url())
@@ -102,7 +95,7 @@ class AddCommentView(LoginRequiredMixin,View):
         form=AddCommentForm(request.POST)
         
         if form.is_valid():
-            team=Team.objects.filter(created_by=self.request.user)[0]
+            team=Team.objects.filter(members__id=self.request.user.id)[0]
             comment=form.save(commit=False)
             comment.team = team
             comment.created_by = request.user
