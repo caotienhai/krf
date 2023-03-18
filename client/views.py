@@ -70,7 +70,7 @@ class ClientListView(LoginRequiredMixin,FilterView):
         if self.request.user.username == 'haict':
             return queryset.all()
         elif self.request.user.groups.all()[0].name=='teamlead':
-            return queryset.filter(team = team, converted_to_client = False)
+            return queryset.filter(team = team)
         else:
             return queryset.filter(created_by = self.request.user)
         
