@@ -39,13 +39,11 @@ class LeadDetailView(LoginRequiredMixin,DetailView):
         
     def get_queryset(self):
         queryset = super(LeadDetailView, self).get_queryset()
-        if self.request.user.username == 'haict':
-            return queryset.filter(pk=self.kwargs.get('pk'))
-        else:
-            return queryset.filter(created_by=self.request.user,pk=self.kwargs.get('pk'))
+        return queryset.filter(pk=self.kwargs.get('pk'))
+        
 class LeadUpdateView(LoginRequiredMixin,UpdateView):
     model = Lead    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status',)
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','created_by',)
     success_url = reverse_lazy('leads:list')
     
     def get_context_data(self, **kwargs):
@@ -63,7 +61,7 @@ class LeadUpdateView(LoginRequiredMixin,UpdateView):
         
 class LeadCreateView(LoginRequiredMixin,CreateView):
     model = Lead    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status',)
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','created_by',)
     success_url = reverse_lazy('leads:list',)
 
     def get_context_data(self, **kwargs):

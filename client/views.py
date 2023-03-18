@@ -66,10 +66,10 @@ class ClientListView(LoginRequiredMixin,FilterView):
      
     def get_queryset(self):
         team = Team.objects.filter(members__id=self.request.user.id)[0]
-        queryset = super(ClientListView, self).get_queryset()
+        queryset = super(ClientListView, self).get_queryset().order_by('country')
         if self.request.user.username == 'haict':
             return queryset.all()
-        elif self.request.user.groups.all()[0].name=='teamlead':
+        elif self.request.user.groups.all()[0].name == 'teamlead':
             return queryset.filter(team = team)
         else:
             return queryset.filter(created_by = self.request.user)
@@ -86,11 +86,8 @@ class ClientDetailView(LoginRequiredMixin,DetailView):
         
     def get_queryset(self):
         queryset = super(ClientDetailView, self).get_queryset()
-        if self.request.user.username == 'haict':
-            return queryset.filter(pk=self.kwargs.get('pk'))
-        else:
-            return queryset.filter(created_by=self.request.user,pk=self.kwargs.get('pk'))
-
+        return queryset.filter(pk=self.kwargs.get('pk'))
+        
 class ClientCreateView(LoginRequiredMixin,CreateView):
     model = Client    
     success_url = reverse_lazy('clients:list')
@@ -130,7 +127,7 @@ class ClientDeleteView(LoginRequiredMixin, DeleteView):
 
 class ClientUpdateView(LoginRequiredMixin,UpdateView):
     model = Client    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source')
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','team','created_by',)
     success_url = reverse_lazy('clients:list')
     
     def get_context_data(self, **kwargs):

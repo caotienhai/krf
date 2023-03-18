@@ -39,7 +39,9 @@
         </table>
         <div class = 'row px-4 mx-2'>
         <a href={% url 'projects:project_update' choosen_project.pk %} class="inline-block mx-2 py-1 px-2 bg-teal-500 rounded-xl text-white">Edit Project Details:</a>
-        <a href={{choosen_project.project_link}} target="_blank" class="inline-block mx-2 py-1 px-2 bg-blue-500 rounded-xl text-white">Go to Link:</a>
+        {%if choosen_project.project_link %}
+            <a href={{choosen_project.project_link}} target="_blank" class="inline-block mx-2 py-1 px-2 bg-blue-500 rounded-xl text-white">Go to Link:</a>
+        {%endif%}
         {% if request.user.is_superuser %}
         <form id="project_delete_form" method="post" action="{% url 'projects:delete' choosen_project.pk %}"> 
             {% csrf_token %}
