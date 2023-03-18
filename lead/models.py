@@ -24,7 +24,7 @@ class Lead(models.Model):
                      ('5.ordered', '5.ordered'),
                      ('6.lost', '6.lost'),)
     team = models.ForeignKey(Team, related_name='leads', on_delete=models.CASCADE)
-    contact_name = models.CharField(max_length=50)
+    contact_name = models.CharField(max_length=50, default='unknown')
     company_name = models.CharField(max_length=70, unique=True)
     address = models.CharField(max_length=100,blank=True,null=True)
     country = CountryField(blank=True,null=True)
