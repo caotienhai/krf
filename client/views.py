@@ -49,9 +49,7 @@ class AddFileView(LoginRequiredMixin,View):
         form=AddFileForm(request.POST,request.FILES)
         
         if form.is_valid():
-            team=Team.objects.filter(created_by=self.request.user)[0]
             file=form.save(commit=False)
-            file.team = team
             file.created_by = request.user
             file.client_id=pk
             file.save()

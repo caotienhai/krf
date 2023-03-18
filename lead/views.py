@@ -118,9 +118,7 @@ class AddFileView(LoginRequiredMixin,View):
         form=AddFileForm(request.POST,request.FILES)
         
         if form.is_valid():
-            team=Team.objects.filter(created_by=self.request.user)[0]
             file=form.save(commit=False)
-            file.team = team
             file.created_by = request.user
             file.lead_id=pk
             file.save()
@@ -135,7 +133,7 @@ class ConvertView(View):
             lead = get_object_or_404(Lead,pk=pk)
         else:
             lead = get_object_or_404(Lead, created_by=self.request.user, pk=pk)
-        team = Team.objects.filter(created_by=request.user)[0]
+        team = Team.objects.filter(members__id=request.user.id)[0]
         
         client = Client.objects.create(
             team = team,

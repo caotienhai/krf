@@ -50,7 +50,6 @@ class Comment(models.Model):
         return self.client.company_name
     
 class ClientFile(models.Model):
-    team = models.ForeignKey(Team, related_name='client_files', on_delete=models.CASCADE)
     client = models.ForeignKey(Client, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='clientfiles')
     created_by = models.ForeignKey(User, related_name='client_files', on_delete=models.CASCADE)
