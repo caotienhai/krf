@@ -59,7 +59,7 @@ class Comment(models.Model):
         return self.lead.company_name
     
 class LeadFile(models.Model):
-    lead = models.ForeignKey(Lead, related_name='files', on_delete=models.CASCADE)
+    lead = models.ForeignKey(Lead, related_name='lead_files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='leadfiles')
     created_by = models.ForeignKey(User, related_name='lead_files', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
