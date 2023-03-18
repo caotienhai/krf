@@ -9,7 +9,7 @@ from django.views import View
 from django_filters.views import FilterView
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
 from .models import Client, Team, ClientFilter, User
-from .forms import AddClientForm,AddCommentForm, AddFileForm
+from .forms import AddCommentForm, AddFileForm
 
 @login_required 
 def clients_export(request):
@@ -91,24 +91,16 @@ class ClientDetailView(LoginRequiredMixin,DetailView):
 class ClientCreateView(LoginRequiredMixin,CreateView):
     model = Client    
     success_url = reverse_lazy('clients:list')
-    form_class = AddClientForm
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','team','created_by',)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        team = Team.objects.filter(created_by=self.request.user)[0]
-        context['team'] = team
         context['title'] = 'Add Customer'
-
         return context
 
     def form_valid(self, form):
-        team = Team.objects.filter(created_by=self.request.user)[0]
-
         self.object = form.save(commit=False)
-        self.object.created_by = self.request.user
-        self.object.team = team
         self.object.save()
-        
         return redirect(self.get_success_url())
         
 class ClientDeleteView(LoginRequiredMixin, DeleteView):
@@ -139,11 +131,8 @@ class ClientUpdateView(LoginRequiredMixin,UpdateView):
     
     def get_queryset(self):
         queryset = super(ClientUpdateView, self).get_queryset()
-        if self.request.user.username == 'haict':
-            return queryset.filter(pk=self.kwargs.get('pk'))
-        else:
-            return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
-        
+        return queryset.filter(pk=self.kwargs.get('pk'))
+  
 @login_required 
 def importClient(request):
     if request.method == 'POST':

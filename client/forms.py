@@ -1,11 +1,6 @@
 from django import forms
-from .models import Client, Comment, ClientFile
-
-class AddClientForm(forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = '__all__'
-        
+from .models import Comment, ClientFile
+     
 class AddCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
