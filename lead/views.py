@@ -19,9 +19,12 @@ class LeadListView(LoginRequiredMixin,FilterView):
     context_object_name='leads'
     filter_class = LeadFilter
     def get_queryset(self):
+        team = Team.objects.filter(members__id=self.request.user.id)[0]
         queryset = super(LeadListView, self).get_queryset()
         if self.request.user.username == 'haict':
             return queryset.filter(converted_to_client = False)
+        elif self.request.user.groups.name=='teamlead':
+            return queryset.filter(team = team, converted_to_client = False)
         else:
             return queryset.filter(created_by = self.request.user, converted_to_client = False)
     
