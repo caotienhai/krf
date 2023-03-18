@@ -65,11 +65,11 @@ class ClientListView(LoginRequiredMixin,FilterView):
     filter_class = ClientFilter
      
     def get_queryset(self):
-        team = Team.objects.filter(created_by=self.request.user)[0]
+        team = Team.objects.filter(members__id=self.request.user.id)[0]
         queryset = super(ClientListView, self).get_queryset()
         if self.request.user.username == 'haict':
             return queryset.all()
-        elif self.request.user.groups.name=='teamlead':
+        elif self.request.user.groups.all()[0].name=='teamlead':
             return queryset.filter(team = team, converted_to_client = False)
         else:
             return queryset.filter(created_by = self.request.user)
