@@ -33,6 +33,7 @@
                         {%if request.user.is_superuser%}
                             <th class = 'py-1 px-2 border border-slate-400'>Team</th>
                         {%endif%}
+                        <th class = 'py-1 px-2 border border-slate-400'>Last modified</th>
                     </tr>              
                 </thead>            
                 <tbody>            
@@ -40,13 +41,14 @@
                     <tr>               
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}"><a href="{% url 'clients:detail' client.id %}">{{ client.contact_name }}</a></td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.company_name }}</td>
-                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.country.name }}</td>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.country.name|truncatechars:15 }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.region }}</td>
-                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.profile }}</td>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.profile|truncatechars:35 }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.created_by.first_name }}</td>
                         {%if request.user.is_superuser%}
                             <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.team }}</td>
                         {%endif%}
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.modified_at }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>                            
