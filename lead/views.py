@@ -42,7 +42,7 @@ class LeadDetailView(LoginRequiredMixin,DetailView):
             return queryset.filter(created_by=self.request.user,pk=self.kwargs.get('pk'))
 class LeadUpdateView(LoginRequiredMixin,UpdateView):
     model = Lead    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','created_by')
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status',)
     success_url = reverse_lazy('leads:list')
     
     def get_context_data(self, **kwargs):
@@ -60,19 +60,19 @@ class LeadUpdateView(LoginRequiredMixin,UpdateView):
         
 class LeadCreateView(LoginRequiredMixin,CreateView):
     model = Lead    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','created_by')
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status',)
     success_url = reverse_lazy('leads:list',)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        team = Team.objects.filter(members__id=self.request.user.id)[0]
+        team = Team.objects.filter(created_by=self.request.user)[0]
         context['team'] = team
         context['title'] = 'Add lead'
 
         return context
  
     def form_valid(self, form):
-        team = Team.objects.filter(members__id=self.request.user.id)[0]
+        team = Team.objects.filter(created_by=self.request.user)[0]
 
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
@@ -101,7 +101,7 @@ class AddCommentView(LoginRequiredMixin,View):
         form=AddCommentForm(request.POST)
         
         if form.is_valid():
-            team=Team.objects.filter(members__id=self.request.user.id)[0]
+            team=Team.objects.filter(created_by=self.request.user)[0]
             comment=form.save(commit=False)
             comment.team = team
             comment.created_by = request.user
@@ -117,7 +117,7 @@ class AddFileView(LoginRequiredMixin,View):
         form=AddFileForm(request.POST,request.FILES)
         
         if form.is_valid():
-            team=Team.objects.filter(members__id=self.request.user.id)[0]
+            team=Team.objects.filter(created_by=self.request.user)[0]
             file=form.save(commit=False)
             file.team = team
             file.created_by = request.user
