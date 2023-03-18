@@ -9,8 +9,8 @@ from django.views import View
 from django_filters.views import FilterView
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from .models import Lead, Team, LeadFilter, User, Comment
-from client.models import Client, Comment as ClientComment, ClientFile
-from .forms import AddCommentForm, AddFileForm, AddLeadForm
+from client.models import Client, Comment as ClientComment
+from .forms import AddCommentForm, AddFileForm
 
 
 class LeadListView(LoginRequiredMixin,FilterView):
@@ -111,7 +111,9 @@ class AddFileView(LoginRequiredMixin,View):
         form=AddFileForm(request.POST,request.FILES)
         
         if form.is_valid():
+            team=Team.objects.filter(members__id=self.request.user.id)[0]
             file=form.save(commit=False)
+            file.team = team
             file.created_by = request.user
             file.lead_id=pk
             file.save()

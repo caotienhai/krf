@@ -34,7 +34,7 @@ class AddCommentView(LoginRequiredMixin,View):
         form=AddCommentForm(request.POST)
         
         if form.is_valid():
-            team=Team.objects.filter(created_by=self.request.user)[0]
+            team=Team.objects.filter(members__id=self.request.user.id)[0]
             comment=form.save(commit=False)
             comment.team = team
             comment.created_by = request.user
@@ -54,7 +54,7 @@ class AddFileView(LoginRequiredMixin,View):
             file.client_id=pk
             file.save()
             
-        return redirect('clients:edit',pk=pk)
+        return redirect('clients:detail',pk=pk)
 
 class ClientListView(LoginRequiredMixin,FilterView):
     model = Client
