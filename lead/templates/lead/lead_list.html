@@ -21,8 +21,12 @@
                         <div class="col-1 bg-gray-100">{{ filter.form.team | as_crispy_field }}</div>
                     {%endif%}
                 </div>
-                <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Leads"/>
+                <input type="submit" class = "mt-1 py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Leads"/>
             </form>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-2">Lead count: <strong>{{filter.qs.count}}</strong></div>
+            </div>
             <table class="table-auto mt-2 mb-4 border-collapse border border-slate-400">
                 <thead>
                     <tr class = 'bg-teal-500 text-white'>
