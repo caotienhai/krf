@@ -22,7 +22,9 @@
 </head>
 <body>
     {% include 'poscrm/partials/nav.html' %}
-
+    <script>
+        $('.dropdown-toggle').dropdown()
+    </script>
     {% if messages %}
         <div class = 'py-6 px-6'>
             {% for message in messages %}
