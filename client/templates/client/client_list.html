@@ -2,8 +2,7 @@
 {% load crispy_forms_tags %}
 {%block title%}Customers{%endblock%}
 {% block content %}
-    <br>
-    <div class = 'py-4 px-6 mt-2'> 
+    <div class = 'py-4 px-6'> 
         <a href={% url 'clients:add' %} class="inline-block mb-2 py-1 px-6 bg-teal-500 rounded-xl text-white">Add Customers</a>
         <a href = {% url 'clients:export' %} class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-teal-500 text-white">Export Clients</a> 
         <a href = {% url 'clients:import' %} class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-success text-white">Import Clients</a>

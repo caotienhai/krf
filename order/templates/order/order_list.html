@@ -3,8 +3,7 @@
 {%block title%}Orders{%endblock%}
 
 {% block content %}
-    <br>
-    <div class = 'py-4 px-6 mt-2'>
+    <div class = 'py-4 px-6'>
         <a href="{%url 'orders:add'%}" class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-teal-500 text-white">Add New Order</a>
         {% if object_list %}
             <form action="" method="get">

@@ -4,8 +4,7 @@
 {%block title%}{{title}}{%endblock%}
 
 {% block content %}
-    <br>
-    <div class = 'form-group w-full max-w-7xl mx-auto px-4 mt-6'>
+    <div class = 'form-group w-full max-w-7xl mx-auto px-4 mt-2'>
         <h1 class='text-xl'>{{ title }}</h1>
         <form method = 'post' action='.'>
             {% csrf_token %}
