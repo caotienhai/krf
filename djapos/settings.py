@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'bootstrap_datepicker_plus',
+    'django_filters',
     'poscrm',
     'team',
     'dashboard',
