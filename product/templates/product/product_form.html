@@ -9,30 +9,29 @@
         <form method = 'post' action=".">  
             {% csrf_token %}
             <div class="form-row align-items-top">
-                <div class="col-4">{{ form.product_code|as_crispy_field }}</div>
-            </div>
-            <div class="form-row align-items-top">
-                <div class="col-4 bg-gray-100">{{ form.product_name|as_crispy_field }}</div>
-                <div class="col-4 bg-gray-100">{{ form.english_name|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.category|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.product_code|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.product_name|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.english_name|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.category|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.model|as_crispy_field }}</div>
+                
             </div>
             
-            <div class="form-row align-items-top">
-                <div class="col-2 bg-gray-100">{{ form.model|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.brand|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.group|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.unit_cost|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.status|as_crispy_field }}</div>
+            <div class="form-row align-items-top">  
+                <div class="col-auto">{{ form.brand|as_crispy_field }}</div>              
+                <div class="col-auto">{{ form.group|as_crispy_field }}</div>
+                <div class="col-1">{{ form.packing_type|as_crispy_field }}</div>
+                <div class="col-1">{{ form.qty_per_ctn|as_crispy_field }}</div>
+                <div class="col-1">{{ form.ctn_length|as_crispy_field }}</div>
+                <div class="col-1">{{ form.ctn_width|as_crispy_field }}</div>
+                <div class="col-1">{{ form.ctn_height|as_crispy_field }}</div>
+                
+                
             </div>
             <div class="form-row align-items-top">
-                <div class="col-10 bg-gray-100">{{ form.description|as_crispy_field }}</div>
-            </div>
-            <div class="form-row align-items-top">
-                <div class="col-2 bg-gray-100">{{ form.packing_type|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.qty_per_ctn|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.ctn_length|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.ctn_width|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.ctn_height|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.description|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.unit_cost|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.status|as_crispy_field }}</div>
             </div>       
             <button class = "py-2 px-4 bg-teal-500 text-white rounded-xl">Submit</button>
         </form> 

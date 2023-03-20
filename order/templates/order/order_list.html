@@ -7,12 +7,12 @@
         <a href="{%url 'orders:add'%}" class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-teal-500 text-white">Add New Order</a>
         {% if object_list %}
             <form action="" method="get">
-                <div class="row">
-                    <div class="col-2 bg-gray-100">{{ filter.form.client | as_crispy_field }}</div>
-                    <div class="col-2 bg-gray-100">{{ filter.form.pic | as_crispy_field }}</div>
-                    <div class="col-2 bg-gray-100">{{ filter.form.team | as_crispy_field }}</div>
-                    <div class="col-2 bg-gray-100">{{ filter.form.load_date | as_crispy_field }}</div>
-                    <div class="col-2 bg-gray-100">{{ filter.form.ship_country | as_crispy_field }}</div>
+                <div class="form-row align-items-top">
+                    <div class="col-auto">{{ filter.form.client | as_crispy_field }}</div>
+                    <div class="col-auto">{{ filter.form.pic | as_crispy_field }}</div>
+                    <div class="col-auto">{{ filter.form.team | as_crispy_field }}</div>
+                    <div class="col-auto">{{ filter.form.load_date | as_crispy_field }}</div>
+                    <div class="col-auto">{{ filter.form.ship_country | as_crispy_field }}</div>
                     
                 </div>
                 <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Orders"/>
