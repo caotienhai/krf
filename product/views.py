@@ -78,7 +78,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         queryset = super(ProductDeleteView, self).get_queryset()
-        return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
+        return queryset.filter(pk=self.kwargs.get('pk'))
     
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)

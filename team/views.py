@@ -6,7 +6,7 @@ from .forms import TeamForm
 
 @login_required 
 def edit_team(request,pk):
-    team = get_object_or_404(Team,created_by = request.user, pk=pk)
+    team = get_object_or_404(Team,pk=pk)
     if request.method == 'POST':
         form = TeamForm(request.POST,instance=team)
         if form.is_valid():
@@ -22,5 +22,5 @@ def edit_team(request,pk):
     
 @login_required 
 def detail(request,pk):
-    team = get_object_or_404(Team,created_by = request.user, pk=pk)
+    team = get_object_or_404(Team,pk=pk)
     return render(request, 'team/detail.html',{'team':team})

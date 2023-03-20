@@ -1,13 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.db.models import F, Sum
 from decimal import *
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
-from .models import Order, OrderDetail, Product, User, OrderFilter
-from .forms import OrderForm, OrderItemForm, DetailFormSet
+from .models import Order, OrderDetail, Team, OrderFilter
+from .forms import OrderForm, DetailFormSet
 
 class OrderInline():
     form_class = OrderForm
@@ -56,8 +55,14 @@ class OrderListView(LoginRequiredMixin,FilterView):
     context_object_name='orders'
     filter_class = OrderFilter
     def get_queryset(self):
+        team = Team.objects.filter(members__id=self.request.user.id)[0]
         queryset = Order.objects.all()
-        return queryset.order_by('-load_date')     
+        if self.request.user.is_superuser or team.name == 'Operation':
+            return queryset.order_by('-load_date') 
+        elif self.request.user.groups.all()[0].name=='teamlead':
+            return queryset.filter(team = team).order_by('-load_date') 
+        else:
+            return queryset.filter(pic = self.request.user).order_by('-load_date') 
         
 class OrderDetailView(LoginRequiredMixin,DetailView): 
     model = Order      
