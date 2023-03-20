@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
-import django_filters
+from .filters import CommentFilter
 from django.views import View
 from django_filters.views import FilterView
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
@@ -176,26 +176,18 @@ class SearchLead(LoginRequiredMixin, ListView):
         )
         return object_list
 
-class CommentFilter(django_filters.FilterSet):
-    created_at = django_filters.DateFromToRangeFilter(
-        lookup_expr=('icontains'),
-        widget=django_filters.widgets.RangeWidget(attrs={'type':'date'}))
-    class Meta:
-        model = Comment
-        fields = ['lead', 'team', 'created_by', 'created_at' ]
-
 class CommentList(LoginRequiredMixin, FilterView):
     paginate_by = 10
     template_name = 'lead/comment.html'
     context_object_name='comments'
     filterset_class = CommentFilter
          
-    def get_queryset(self):        
+    def get_queryset(self):
+        comments = Comment.objects.all()
         if self.request.user.is_superuser:
-            comments = Comment.objects.all().order_by('-created_at').select_related('lead','team') 
-        else:            
-            comments = Comment.objects.all().filter(create_by = self.request.user).select_related('lead','team')
-        return comments.order_by('-created_at')   
+            return comments.order_by('-created_at')
+        else:
+            return comments.filter(created_by=self.request.user).order_by('-created_at') 
     
 @login_required 
 def importLead(request):
