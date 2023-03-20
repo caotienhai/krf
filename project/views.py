@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DeleteView, DetailView, CreateView, UpdateView
+from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django.urls import reverse_lazy
 from django.db.models import Avg
 from .models import Project, Task
@@ -39,6 +40,11 @@ class ProjectUpdateView(LoginRequiredMixin,UpdateView):
     model = Project    
     fields = '__all__'
     success_url = reverse_lazy('projects:list')
+    
+    def get_form(self):
+        form = super().get_form()
+        form.fields['dead_line'].widget = DatePickerInput()
+        return form
     
     def get_context_data(self, **kwargs):
         context = super(ProjectUpdateView, self).get_context_data(**kwargs)
@@ -131,6 +137,11 @@ class TaskCreateView(LoginRequiredMixin,CreateView):
 class TaskUpdateView(LoginRequiredMixin,UpdateView):
     model = Task    
     fields = ('assign','task_name','task_target','task_update','complete_per','dead_line','status','due')    
+    
+    def get_form(self):
+        form = super().get_form()
+        form.fields['dead_line'].widget = DatePickerInput()
+        return form
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
