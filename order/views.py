@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from decimal import *
 from django.contrib import messages
 from django.urls import reverse_lazy
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django_filters.views import FilterView
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
 from .models import Order, OrderDetail, Team, OrderFilter
@@ -106,6 +107,16 @@ class OrderCreateView(LoginRequiredMixin,CreateView):
     model = Order
     fields = '__all__'    
     success_url = reverse_lazy('orders:list')
+    def get_form(self):
+        form = super().get_form()
+        form.fields['deposit_date'].widget = DateTimePickerInput()
+        form.fields['payment1_date'].widget = DateTimePickerInput()
+        form.fields['payment2_date'].widget = DateTimePickerInput()
+        form.fields['load_date'].widget = DateTimePickerInput()
+        form.fields['etd_date'].widget = DateTimePickerInput()
+        form.fields['invoice_date'].widget = DateTimePickerInput()
+        form.fields['declare_date'].widget = DateTimePickerInput()
+        return form    
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)       
