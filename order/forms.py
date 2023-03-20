@@ -16,6 +16,7 @@ class OrderForm(forms.ModelForm):
             'payment2_date':DatePickerInput(),
             'load_date':DatePickerInput(),
             'etd_date':DatePickerInput(),
+            'eta_date':DatePickerInput(),
             'invoice_date':DatePickerInput(),
             'declare_date':DatePickerInput(),
         }
