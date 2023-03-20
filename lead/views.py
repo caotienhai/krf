@@ -36,6 +36,7 @@ class LeadDetailView(LoginRequiredMixin,DetailView):
         context = super().get_context_data(**kwargs)
         context['commentform'] = AddCommentForm()
         context['fileform'] = AddFileForm()
+        context['title'] = 'View Lead Details'
         return context
         
     def get_queryset(self):

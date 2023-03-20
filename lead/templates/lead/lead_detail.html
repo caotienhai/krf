@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class = 'py-4 px-6'>
-        <h2 class='mb-4 text-xl'>Lead details page</h2>
+        <h2 class='mb-4 text-xl'>{{title}}</h2>
         <div class="row mb-1 text-muted small">
             <div class="col-3">Contact Name:</div>
             <div class="col-3">Company Name:</div>
@@ -70,10 +70,9 @@
             <a href={% url 'leads:list' %} class="py-1 px-4 mx-2 rounded-xl bg-blue-500 text-white">Back To List</a>
         </div>
         <hr>
-
         <div class="row mb-2">
             <div class="col-7">
-                <h2 class="mb-6 text-3xl">Comments</h2>
+                <h2 class="mb-6 text-3xl">Care Actions</h2>
                 <hr class = "my-1">
                 <div class="space-y-4">
                     {% for comment in lead.comments.all %}

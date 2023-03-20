@@ -80,7 +80,7 @@ class ClientDetailView(LoginRequiredMixin,DetailView):
         context = super().get_context_data(**kwargs)
         context['commentform'] = AddCommentForm()
         context['fileform'] = AddFileForm()
-        context['title'] = 'Update Client'
+        context['title'] = 'View Client Details'
         return context
         
     def get_queryset(self):
@@ -123,7 +123,7 @@ class ClientUpdateView(LoginRequiredMixin,UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Update Customer'
+        context['title'] = 'Update Client'
         context['commentform'] = AddCommentForm()
         context['fileform'] = AddFileForm()
         return context
