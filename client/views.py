@@ -66,7 +66,7 @@ class ClientListView(LoginRequiredMixin,FilterView):
     def get_queryset(self):
         team = Team.objects.filter(members__id=self.request.user.id)[0]
         queryset = super(ClientListView, self).get_queryset().order_by('country')
-        if self.request.user.username == 'haict':
+        if team.name == 'Operation' or self.request.user.is_supperuser():
             return queryset.all()
         elif self.request.user.groups.all()[0].name == 'teamlead':
             return queryset.filter(team = team)
