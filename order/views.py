@@ -114,6 +114,7 @@ class OrderCreateView(LoginRequiredMixin,CreateView):
         form.fields['payment2_date'].widget = DateTimePickerInput()
         form.fields['load_date'].widget = DateTimePickerInput()
         form.fields['etd_date'].widget = DateTimePickerInput()
+        form.fields['eta_date'].widget = DateTimePickerInput()
         form.fields['invoice_date'].widget = DateTimePickerInput()
         form.fields['declare_date'].widget = DateTimePickerInput()
         return form    
