@@ -9,25 +9,25 @@
         <form method = 'post' action=".">            
             {% csrf_token %}
             <div class="form-row align-items-center">
-                <div class="col-auto bg-gray-100">{{ form.contact_name|as_crispy_field }}</div>
-                <div class="col-auto bg-gray-100">{{ form.company_name|as_crispy_field }}</div>
-                <div class="col-2 bg-gray-100">{{ form.country|as_crispy_field }}</div>
-                <div class="col-auto bg-gray-100">{{ form.region|as_crispy_field }}</div>
-                <div class="col-auto bg-gray-100">{{ form.team|as_crispy_field }}</div>
-                <div class="col-auto bg-gray-100">{{ form.created_by|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.contact_name|as_crispy_field }}</div>
+                <div class="col-3">{{ form.company_name|as_crispy_field }}</div>
+                <div class="col-2">{{ form.country|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.region|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.team|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.created_by|as_crispy_field }}</div>
             </div>
             <div class="form-row align-items-center">
-                <div class="col-4 bg-gray-100">{{ form.address|as_crispy_field }}</div>
+                <div class="col-3 bg-gray-100">{{ form.address|as_crispy_field }}</div>
                 <div class="col-auto bg-gray-100">{{ form.phone|as_crispy_field }}</div>
                 <div class="col-auto bg-gray-100">{{ form.email|as_crispy_field }}</div>
                 <div class="col-auto bg-gray-100">{{ form.portfolio|as_crispy_field }}</div>
                 <div class="col-auto bg-gray-100">{{ form.source|as_crispy_field }}</div>
             </div>
             <div class="form-row align-items-top">
-                <div class="col-6">{{ form.profile|as_crispy_field }}</div>
-                <div class="col-6">{{ form.care_update|as_crispy_field }}</div>
-                <div class="col-auto">{{ form.priority|as_crispy_field }}</div>
-                <div class="col-auto">{{ form.status|as_crispy_field }}</div>
+                <div class="col-auto bg-gray-100">{{ form.profile|as_crispy_field }}</div>
+                <div class="col-auto bg-gray-100">{{ form.care_update|as_crispy_field }}</div>
+                <div class="col-auto bg-gray-100">{{ form.status|as_crispy_field }}</div>
+                <div class="col-auto bg-gray-100">{{ form.priority|as_crispy_field }}</div>
             </div>
             
             <button class = "py-1 px-6 bg-teal-500 text-white rounded-xl">Submit</button>
