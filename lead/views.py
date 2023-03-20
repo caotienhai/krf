@@ -186,9 +186,9 @@ class CommentFilter(django_filters.FilterSet):
 
 class CommentList(LoginRequiredMixin, FilterView):
     paginate_by = 10
-    model = Comment
     template_name = 'lead/comment.html'
     context_object_name='comments'
+    filterset_class = CommentFilter
          
     def get_queryset(self):        
         if self.request.user.is_superuser:
