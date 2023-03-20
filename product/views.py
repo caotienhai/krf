@@ -9,6 +9,7 @@ from .models import Product, ProductFilter
 from .forms import AddProductFileForm, ProductForm
 
 class ProductListView(LoginRequiredMixin,FilterView):
+    paginate_by = 10
     model = Product
     template_name = 'product/product_list.html'
     context_object_name='products'

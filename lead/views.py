@@ -14,6 +14,7 @@ from .forms import AddCommentForm, AddFileForm
 
 
 class LeadListView(LoginRequiredMixin,FilterView):
+    paginate_by = 10
     model = Lead
     template_name = 'lead/lead_list.html'
     context_object_name='leads'
@@ -174,6 +175,7 @@ class SearchLead(LoginRequiredMixin, ListView):
         return object_list
         
 class CommentList(LoginRequiredMixin, FilterView):
+    paginate_by = 10
     model = Comment
     template_name = 'lead/comment.html'
     context_object_name='comments'

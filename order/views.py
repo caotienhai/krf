@@ -50,6 +50,7 @@ class OrderInline():
         
     
 class OrderListView(LoginRequiredMixin,FilterView):
+    paginate_by = 10
     model = Order
     template_name = 'order/order_list.html'
     context_object_name='orders'

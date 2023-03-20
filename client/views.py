@@ -57,6 +57,7 @@ class AddFileView(LoginRequiredMixin,View):
         return redirect('clients:detail',pk=pk)
 
 class ClientListView(LoginRequiredMixin,FilterView):
+    paginate_by = 10
     model = Client
     template_name = 'client/client_list.html'
     context_object_name='clients'

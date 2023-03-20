@@ -23,6 +23,25 @@
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-2">Client count: <strong>{{filter.qs.count}}</strong></div>
+                <div class="col-auto">
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
             </div>
             <table class="table-auto mt-2 mb-4 border-collapse border border-slate-400">
                 <thead>
@@ -40,7 +59,7 @@
                     </tr>              
                 </thead>            
                 <tbody>            
-                    {% for client in filter.qs %}
+                    {% for client in page_obj %}
                     <tr>               
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}"><a href="{% url 'clients:detail' client.id %}">{{ client.contact_name }}</a></td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.company_name }}</td>

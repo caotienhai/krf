@@ -14,6 +14,29 @@
         <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter"/>
     </form>
     {% if object_list %}
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2">Actions count: <strong>{{filter.qs.count}}</strong></div>
+            <div class="col-auto">
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; First </a>
+                            <a href="?page={{ page_obj.previous_page_number }}"> Previous </a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}"> Next </a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}"> Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
         <table class="table-auto mt-2 mb-4 border-collapse border border-slate-400">
         <thead>
             <tr class = 'bg-teal-500 text-white'>
@@ -27,7 +50,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for comment in filter.qs %}
+        {% for comment in page_obj %}
             <tr>
                 <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}"><a href={% url 'leads:detail' comment.lead.id %}>{{ comment.lead.contact_name }}</a></td>
                 <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ comment.lead.company_name }}</td>
