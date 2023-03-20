@@ -6,8 +6,8 @@
 {% block content %}
 <div class = 'form-group w-full max-w-7xl mx-auto px-4 mt-2'>
     <h1 class='text-xl'>{{ title }}</h1>
-        
-    <form method = 'post' action='.'>
+    {{form.media}}    
+    <form enctype="multipart/form-data" class="container" method="post" id="order_form">
         {% csrf_token %}
         <div class="form-row align-items-top">
             <div class="col-auto">{{ form.order_number|as_crispy_field }}</div>

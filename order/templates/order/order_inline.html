@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class = 'form-group w-full max-w-7xl mx-auto px-4'>
-            
+    {{form.media}}
     <form enctype="multipart/form-data" class="container" method="post" id="order_form">
         {% csrf_token %}
         <!-- main form start -->
