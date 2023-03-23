@@ -116,10 +116,10 @@ EMAIL_HOST_PASSWORD = ''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',        
-        'NAME': 'dqkhki1dvt6af',
-        'USER': 'rcwyvpbmjpmxnt',
-        'PASSWORD': '9b823f8e7c758cbfec47ca93fb6918f97ea6560975b750c963a78556c0adec5b',
-        'HOST': 'ec2-34-226-11-94.compute-1.amazonaws.com',
+        'NAME': 'd3amkussd4hsbm',
+        'USER': 'vctzxnbdijquxc',
+        'PASSWORD': '50ca908c116573b1880cd8bb38be8d0e9d15a63e0c99a40fbcee8f93a594a393',
+        'HOST': 'ec2-107-21-67-46.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
