@@ -4,7 +4,8 @@
 
 {% block content %}
 <div class="mt-2 col-md-12">
-    <h3>Caring Actions</h3>    
+    <h3>Caring Actions</h3>
+    {{form.media}}
     <form action="" method="get">
         <div class="row">
             <div class="col-2 bg-gray-100">{{ filter.form.lead | as_crispy_field }}</div>
@@ -12,7 +13,7 @@
             <div class="col-2 bg-gray-100">{{ filter.form.created_by | as_crispy_field }}</div>
             <div class="col-2 bg-gray-100">{{ filter.form.created_at | as_crispy_field }}</div> 
         </div>
-        <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter"/>
+        <input type="submit" class = "mt-2 py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Results"/>
     </form>
     {% if object_list %}
         <div class="row">
@@ -23,7 +24,7 @@
                     <span class="step-links">
                         {% if page_obj.has_previous %}
                             <a href="?page=1">&laquo; First </a>
-                            <a href="?page={{ page_obj.previous_page_number }}"> Previous </a>
+                            <a href="?page={{ page_obj.previous_page_number }}"> &laquo; Previous </a>
                         {% endif %}
                 
                         <span class="current">
@@ -31,7 +32,7 @@
                         </span>
                 
                         {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}"> Next </a>
+                            <a href="?page={{ page_obj.next_page_number }}"> Next  &raquo; </a>
                             <a href="?page={{ page_obj.paginator.num_pages }}"> Last &raquo;</a>
                         {% endif %}
                     </span>
