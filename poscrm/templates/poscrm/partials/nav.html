@@ -19,8 +19,16 @@
             <a class="dropdown-item" href={%url 'leads:import'%}>Upload Leads</a>
           </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href={%url 'clients:list'%}>Clients</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clients</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href={%url 'clients:list'%}>Client List</a>
+            <a class="dropdown-item" href={%url 'clients:add'%}>Add New Client</a>
+            {%if request.user.is_superuser%}
+              <a class="dropdown-item" href={%url 'clients:import'%}>Upload Clients</a>
+              <a class="dropdown-item" href={%url 'clients:export'%}>Upload Clients</a>
+            {%endif%}
+          </div>
         </li>
         {% if team.name == 'Operation' %}
         <li class="nav-item">
