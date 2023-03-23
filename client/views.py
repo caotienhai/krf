@@ -16,15 +16,15 @@ def clients_export(request):
     if request.user.username == 'haict':
         clients = Client.objects.all()
     else:
-        clients = Client.objects.filter(created_by = request.user)
+        clients = Client.objects.filter(assign_to = request.user)
     response = HttpResponse(
         content_type = 'text/csv',
         headers = {'Content-Disposition': 'attachment; filename = "clientexpport.csv"'},
     )
     writer = csv.writer(response)
-    writer.writerow(['Client','Company','Address','Country','profile','Created by','Created at'])
+    writer.writerow(['Client','Company','Address','Country','profile','PIC','Team','Created by','Created at'])
     for client in clients:
-        writer.writerow([client.contact_name,client.company_name,client.address,client.country,client.profile,client.created_by,client.created_at])
+        writer.writerow([client.contact_name,client.company_name,client.address,client.country,client.profile,client.assign_to,client.team.name,client.created_by,client.created_at])
     
     return response
 
@@ -71,7 +71,7 @@ class ClientListView(LoginRequiredMixin,FilterView):
         elif self.request.user.groups.all()[0].name == 'teamlead':
             return queryset.filter(team = team)
         else:
-            return queryset.filter(created_by = self.request.user)
+            return queryset.filter(assign_to = self.request.user)
         
 class ClientDetailView(LoginRequiredMixin,DetailView): 
     model = Client
@@ -90,7 +90,7 @@ class ClientDetailView(LoginRequiredMixin,DetailView):
 class ClientCreateView(LoginRequiredMixin,CreateView):
     model = Client    
     success_url = reverse_lazy('clients:list')
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','team','created_by',)
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','team','assign_to','created_by',)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -111,14 +111,14 @@ class ClientDeleteView(LoginRequiredMixin, DeleteView):
         if self.request.user.username == 'haict':
             return queryset.filter(pk=self.kwargs.get('pk'))
         else:
-            return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
+            return queryset.filter(assign_to=self.request.user, pk=self.kwargs.get('pk'))
     
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
 class ClientUpdateView(LoginRequiredMixin,UpdateView):
     model = Client    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','team','created_by',)
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','team','assign_to','created_by',)
     success_url = reverse_lazy('clients:list')
     
     def get_context_data(self, **kwargs):
@@ -156,7 +156,8 @@ def importClient(request):
                 client.portfolio = row[10].value
                 client.source = row[11].value
                 pic=User.objects.filter(username=row[12].value)[0]
-                client.created_by = pic
+                client.assign_to = pic
+                client.created_by = request.user
                 data.append(client)
                 
             Client.objects.bulk_create(data)

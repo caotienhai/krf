@@ -17,7 +17,7 @@ class Client(models.Model):
     CHOICE_SOURCE = (('Alibaba','Alibaba'),('WATI','WATI'),
                      ('Google','Google'),('Trade Fairs','Trade Fairs'),
                      ('Custom Data','Custom Data'),('Others','Others'),)
-    team = models.ForeignKey(Team, related_name='clients', on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, related_name='clients', on_delete=models.DO_NOTHING)
     contact_name = models.CharField(max_length=50)
     company_name = models.CharField(max_length=70, unique=True)
     address = models.CharField(max_length=100,blank=True,null=True)
@@ -29,7 +29,8 @@ class Client(models.Model):
     care_update = models.TextField(blank=True,null=True)
     portfolio = models.CharField(max_length=50,blank=True,null=True, choices=CHOICE_PORTFOLIO)
     source = models.CharField(max_length=50,blank=True,null=True, choices=CHOICE_SOURCE)
-    created_by = models.ForeignKey(User, related_name='clients',on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='clients',on_delete=models.SET_DEFAULT, default=1)
+    assign_to = models.ForeignKey(User, related_name='client_pic',on_delete=models.SET_DEFAULT, default=1)
     created_at = models.DateField(auto_now_add=True)
     modify_at = models.DateField(auto_now=True)
     
@@ -61,4 +62,4 @@ class ClientFile(models.Model):
 class ClientFilter(django_filters.FilterSet):
     class Meta:
         model = Client
-        fields = ['country','region','portfolio','source']
+        fields = ['country','region','portfolio','source','assign_to','team']

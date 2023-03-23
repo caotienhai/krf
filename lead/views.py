@@ -28,7 +28,7 @@ class LeadListView(LoginRequiredMixin,FilterView):
         elif self.request.user.groups.all()[0].name=='teamlead':
             return queryset.filter(team = team, converted_to_client = False)
         else:
-            return queryset.filter(created_by = self.request.user, converted_to_client = False)
+            return queryset.filter(assign_to = self.request.user, converted_to_client = False)
     
 class LeadDetailView(LoginRequiredMixin,DetailView): 
     model = Lead
@@ -46,7 +46,7 @@ class LeadDetailView(LoginRequiredMixin,DetailView):
         
 class LeadUpdateView(LoginRequiredMixin,UpdateView):
     model = Lead    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','created_by',)
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','assign_to','created_by',)
     success_url = reverse_lazy('leads:list')
     
     def get_context_data(self, **kwargs):
@@ -63,7 +63,7 @@ class LeadUpdateView(LoginRequiredMixin,UpdateView):
         
 class LeadCreateView(LoginRequiredMixin,CreateView):
     model = Lead    
-    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','created_by',)
+    fields = ('contact_name','company_name','address','country','region','phone','email','profile','care_update','portfolio','source','priority','status','team','assign_to','created_by',)
     success_url = reverse_lazy('leads:list',)
 
     def get_context_data(self, **kwargs):
@@ -87,7 +87,7 @@ class LeadDeleteView(LoginRequiredMixin, DeleteView):
         if self.request.user.username == 'haict':
             return queryset.filter(pk=self.kwargs.get('pk'))
         else:
-            return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
+            return queryset.filter(assign_to=self.request.user, pk=self.kwargs.get('pk'))
         
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
@@ -130,7 +130,7 @@ class ConvertView(View):
         if self.request.user.username == 'haict':            
             lead = get_object_or_404(Lead,pk=pk)
         else:
-            lead = get_object_or_404(Lead, created_by=self.request.user, pk=pk)
+            lead = get_object_or_404(Lead, assign_to=self.request.user, pk=pk)
         team = Team.objects.filter(members__id=request.user.id)[0]
         
         client = Client.objects.create(
@@ -146,6 +146,7 @@ class ConvertView(View):
             care_update = lead.care_update,
             portfolio = lead.portfolio,
             source = lead.source,
+            assign_to = lead.assign_to,
             created_by = request.user,
         ) 
         lead.converted_to_client = True
@@ -215,7 +216,8 @@ def importLead(request):
                 lead.status = row[12].value
                 lead.source = row[13].value
                 pic=User.objects.filter(username=row[14].value)[0]
-                lead.created_by = pic
+                lead.assign_to = pic
+                lead.created_by = request.user
                 data.append(lead)
                 
             Lead.objects.bulk_create(data)

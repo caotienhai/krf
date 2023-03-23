@@ -14,7 +14,7 @@
                 <div class="col-2 bg-gray-100">{{ form.country|as_crispy_field }}</div>
                 <div class="col-auto bg-gray-100">{{ form.region|as_crispy_field }}</div>
                 <div class="col-auto bg-gray-100">{{ form.team|as_crispy_field }}</div>
-                <div class="col-auto bg-gray-100">{{ form.created_by|as_crispy_field }}</div>
+                <div class="col-auto bg-gray-100">{{ form.assign_to|as_crispy_field }}</div>
             </div>
             <div class="form-row align-items-center">
                 <div class="col-3">{{ form.address|as_crispy_field }}</div>
@@ -26,6 +26,7 @@
             <div class="form-row align-items-center">
                 <div class="col-5">{{ form.profile|as_crispy_field }}</div>
                 <div class="col-5">{{ form.care_update|as_crispy_field }}</div>
+                <div class="col-auto">{{ form.created_by|as_crispy_field }}</div>
             </div>            
             <button class = "py-2 px-6 bg-teal-500 text-white rounded-xl">Submit</button>
         </form>

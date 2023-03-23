@@ -13,7 +13,7 @@
                     <div class="col-auto bg-gray-100">{{ filter.form.region | as_crispy_field }}</div>
                     <div class="col-auto bg-gray-100">{{ filter.form.portfolio | as_crispy_field }}</div>
                     <div class="col-auto bg-gray-100">{{ filter.form.source | as_crispy_field }}</div>
-                    <div class="col-auto bg-gray-100">{{ filter.form.created_by | as_crispy_field }}</div>
+                    <div class="col-auto bg-gray-100">{{ filter.form.assign_to | as_crispy_field }}</div>
                     {%if request.user.is_superuser%}
                         <div class="col-auto bg-gray-100">{{ filter.form.team | as_crispy_field }}</div>
                     {%endif%}
@@ -66,7 +66,7 @@
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.country.name|truncatechars:15 }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.region }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.profile|truncatechars:35 }}</td>
-                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.created_by.first_name }}</td>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.assign_to.first_name }}</td>
                         {%if request.user.is_superuser%}
                             <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ client.team }}</td>
                         {%endif%}

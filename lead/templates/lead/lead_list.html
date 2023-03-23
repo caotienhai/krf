@@ -15,7 +15,7 @@
                     <div class="col-auto">{{ filter.form.source | as_crispy_field }}</div>
                     <div class="col-auto">{{ filter.form.priority | as_crispy_field }}</div>
                     <div class="col-auto">{{ filter.form.status | as_crispy_field }}</div> 
-                    <div class="col-auto">{{ filter.form.created_by | as_crispy_field }}</div>                    
+                    <div class="col-auto">{{ filter.form.assign_to | as_crispy_field }}</div>                    
                     {%if request.user.is_superuser%}
                         <div class="col-auto">{{ filter.form.team | as_crispy_field }}</div>
                     {%endif%}
@@ -72,7 +72,7 @@
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.get_priority_display }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.get_status_display }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.care_update|truncatechars:35 }}</td>
-                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.created_by.first_name }}</td>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.assign_to.first_name }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.team }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.modify_at }}</td>                    
                     </tr>

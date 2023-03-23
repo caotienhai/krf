@@ -23,7 +23,7 @@ class Lead(models.Model):
                      ('4.dealing', '4.dealing'),
                      ('5.ordered', '5.ordered'),
                      ('6.lost', '6.lost'),)
-    team = models.ForeignKey(Team, related_name='leads', on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, related_name='leads', on_delete=models.DO_NOTHING)
     contact_name = models.CharField(max_length=50, default='unknown')
     company_name = models.CharField(max_length=70, unique=True)
     address = models.CharField(max_length=100,blank=True,null=True)
@@ -38,7 +38,8 @@ class Lead(models.Model):
     status = models.CharField(max_length=14,choices=CHOICE_STATUS,default='2.demanded')
     source = models.CharField(max_length=50,blank=True,null=True, choices=CHOICE_SOURCE)
     converted_to_client = models.BooleanField(default=False)
-    created_by = models.ForeignKey(User, related_name='leads',on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='leads',on_delete=models.DO_NOTHING)
+    assign_to = models.ForeignKey(User, related_name='lead_pic',on_delete=models.SET_DEFAULT, default=1)
     created_at = models.DateField(auto_now_add=True)
     modify_at = models.DateField(auto_now=True)
      
@@ -71,4 +72,4 @@ class LeadFile(models.Model):
 class LeadFilter(django_filters.FilterSet):
     class Meta:
         model = Lead
-        fields = ['country','region','portfolio','source','priority','status']
+        fields = ['country','region','portfolio','source','priority','status','assign_to','team']
