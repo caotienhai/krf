@@ -72,4 +72,4 @@ class LeadFile(models.Model):
 class LeadFilter(django_filters.FilterSet):
     class Meta:
         model = Lead
-        fields = ['country','region','portfolio','source','priority','status','assign_to','team']
+        fields = ['country','region','portfolio','source','priority','status']

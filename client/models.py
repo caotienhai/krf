@@ -62,4 +62,4 @@ class ClientFile(models.Model):
 class ClientFilter(django_filters.FilterSet):
     class Meta:
         model = Client
-        fields = ['country','region','portfolio','source','assign_to','team']
+        fields = ['country','region','portfolio','source']
