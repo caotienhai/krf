@@ -72,7 +72,7 @@
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.get_priority_display }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.get_status_display }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.care_update|truncatechars:35 }}</td>
-                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.assign_to.first_name }}</td>
+                        <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.assign_to }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.team }}</td>
                         <td class = "py-1 px-2 border border-slate-400 {% cycle 'bg-gray-100' '' %}">{{ lead.modify_at }}</td>                    
                     </tr>
