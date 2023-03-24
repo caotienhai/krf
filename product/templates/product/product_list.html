@@ -4,18 +4,18 @@
 
 {% block content %}
     <div class = 'py-4 px-6'>
-        <a href="{%url 'products:add'%}" class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-teal-500 text-white">Add Product</a>
-        
+        <a href="{%url 'products:add'%}" class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-teal-500 text-white">Add Product</a> 
+        <form action="" method="get">
+            <div class="form-row align-items-top">
+                <div class="col-auto">{{ filter.form.category | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.model | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.brand | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.group | as_crispy_field }}</div>
+            </div>
+            <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Product"/>
+        </form>
+
         {% if object_list %}
-            <form action="" method="get">
-                <div class="form-row align-items-top">
-                    <div class="col-auto">{{ filter.form.category | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.model | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.brand | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.group | as_crispy_field }}</div>
-                </div>
-                <input type="submit" class = "py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Product"/>
-            </form>
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-2">Product count: <strong>{{filter.qs.count}}</strong></div>

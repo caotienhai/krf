@@ -6,22 +6,23 @@
         <a href={%url 'leads:add'%} class="inline-block mb-2 py-1 px-6 bg-teal-500 rounded-xl text-white">Add More Leads</a>
         <a href={%url 'leads:import'%} class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-warning text-white">Excel Upload</a>
         <a href={%url 'leads:comment'%} class="inline-block mt-2 mb-2 py-1 px-6 rounded-xl bg-success text-white">Caring Actions</a>
+        
+        <form action="" method="get">
+            <div class="form-row align-items-center">
+                <div class="col-2">{{ filter.form.country | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.region | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.portfolio | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.source | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.priority | as_crispy_field }}</div>
+                <div class="col-auto">{{ filter.form.status | as_crispy_field }}</div> 
+                <div class="col-auto">{{ filter.form.assign_to | as_crispy_field }}</div>                    
+                {%if request.user.is_superuser%}
+                    <div class="col-auto">{{ filter.form.team | as_crispy_field }}</div>
+                {%endif%}
+            </div>
+            <input type="submit" class = "mt-1 py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Leads"/>
+        </form>
         {% if object_list %}
-            <form action="" method="get">
-                <div class="form-row align-items-center">
-                    <div class="col-2">{{ filter.form.country | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.region | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.portfolio | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.source | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.priority | as_crispy_field }}</div>
-                    <div class="col-auto">{{ filter.form.status | as_crispy_field }}</div> 
-                    <div class="col-auto">{{ filter.form.assign_to | as_crispy_field }}</div>                    
-                    {%if request.user.is_superuser%}
-                        <div class="col-auto">{{ filter.form.team | as_crispy_field }}</div>
-                    {%endif%}
-                </div>
-                <input type="submit" class = "mt-1 py-1 px-6 bg-blue-500 rounded-xl text-white" value = "Filter Leads"/>
-            </form>
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-2">Lead count: <strong>{{filter.qs.count}}</strong></div>
