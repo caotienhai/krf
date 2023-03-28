@@ -1,0 +1,80 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+{%block title%}{{ contact.first_name }}{%endblock%}
+
+{% block content %}
+    <div class = 'py-4 px-6'>
+        <h2 class='mb-4 text-xl'>{{title}}</h2>
+        <form action="." method="POST">
+            {% csrf_token %}
+            <div class="row mb-1 text-muted small">
+                <div class="col-2">First Name:</div>
+                <div class="col-2">Last Name:</div>
+                <div class="col-2">Company Name:</div>
+                <div class="col-2">Birth Date:</div>
+                <div class="col-1">Married:</div>
+                <div class="col-3">Family:</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-2 px-4">{{ contact.first_name }}</div>
+                <div class="col-2 px-4">{{ contact.last_name }}</div>
+                <div class="col-2 px-4">{{ contact.lead }}</div>
+                <div class="col-2 px-4">{{ contact.birth_date }}</div>
+                <div class="col-1 px-4">{{ contact.married }}</div>
+                <div class="col-3 px-4">{{ contact.family }}</div>
+            </div> 
+
+            <div class="row mb-1 text-muted small">                
+                <div class="col-2">Phone Number:</div>
+                <div class="col-2">Email:</div>
+                <div class="col-2">Religion:</div>
+                <div class="col-2">DISC:</div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-2 px-4">{{ contact.phone_number }}</div>
+                <div class="col-2 px-4">{{ contact.email }}</div>
+                <div class="col-2 px-4">{{ contact.religion }}</div>
+                <div class="col-2 px-4">{{ contact.disc }}</div>
+            </div>
+
+            <div class="row mb-1 text-muted small">
+                <div class="col-4">Stakholders:</div>
+                <div class="col-4">Gains:</div>
+                <div class="col-4">Pains:</div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-4">{{ contact.stakeholders }}</div>
+                <div class="col-4">{{ contact.gains }}</div>
+                <div class="col-4">{{ contact.pains }}</div>
+            </div>
+
+            <div class="row mb-1 text-muted small">
+                <div class="col-2">Team:</div>
+                <div class="col-2">PIC:</div>
+
+            </div>
+            <div class="row">
+                <div class="col-2">{{ contact.team }}</div>
+                <div class="col-auto">{{ contact.assign_to }}</div>
+            </div>
+            <div class="row mb-2">
+                <input type="submit" value="Save" class="py-1 px-4 rounded-xl bg-success text-white">
+                <a href={% url 'leads:list' %} class="py-1 px-4 mx-1 rounded-xl bg-warning text-white">Back To Leads</a>
+                <a href={% url 'leads:contact' %} class="py-1 px-4 mx-1 rounded-xl bg-blue-500 text-white">Back to Contacts</a>
+                
+            </div>
+            
+        </form>
+        <hr class = "my-2">
+        <div class="row mb-2">
+            <a href={% url 'leads:contact_update' contact.pk %} class="py-1 px-4 mx-1 rounded-xl bg-blue-500 text-white">Edit Contact</a>
+            {%if request.user.is_superuser%}
+            <form id="contact_delete_form" method="post" action={% url 'leads:delete_contact' contact.pk %}>
+                {% csrf_token %}
+            </form>
+            <a href="#" onclick="document.getElementById('contact_delete_form').submit();" class="py-1 px-2 mx-1 bg-red-500 rounded-xl text-white">Delete</a>
+            {%endif%}
+        </div>
+        
+    </div>  
+{% endblock %}
