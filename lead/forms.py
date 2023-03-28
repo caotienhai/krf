@@ -1,22 +1,6 @@
 from django import forms
-from django.urls import reverse_lazy
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
-from .models import Lead, Comment, LeadFile
-
-INPUT_CLASS = 'w-full my-4 py-4 px-6 rounded-xl bg-gray-100'
-
-class AddLeadForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_action = reverse_lazy('index')
-        self.helper.form_method = 'GET'
-        self.helper.add_input(Submit('submit','Submit'))
-        
-    class Meta:
-        model = Lead
-        fields = '__all__'
+from bootstrap_datepicker_plus.widgets import DatePickerInput
+from .models import Comment, LeadFile, Contact
         
 class AddCommentForm(forms.ModelForm):
     class Meta:
@@ -27,3 +11,14 @@ class AddFileForm(forms.ModelForm):
     class Meta:
         model = LeadFile        
         fields = ('file',)
+        
+class AddContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact        
+        fields = ['first_name','last_name','lead',
+                  'birth_date','married','family','phone_number','email','religion',
+                  'disc','gains','pains','stakeholders',
+                  'assign_to','team']
+        widgets = {
+            'birth_date':DatePickerInput(),
+        }

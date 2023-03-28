@@ -58,7 +58,30 @@ class ClientFile(models.Model):
     
     def __str__(self):
         return self.client.company_name
+
+class Contact(models.Model):
+    CHOICE_REL = (('Muslim','Muslim'),('Hindi','Hindi'),
+                  ('Buddhism','Buddhism'),('Christian','Christian'),
+                  ('Other','Other'),)
+    CHOICE_DISC = (('Dominance','Dominance'),('Influence','Influence'),
+                  ('Steadiness','Steadiness'),('Compliance','Compliance'),)
     
+    team = models.ForeignKey(Team, related_name='client_contacts', on_delete=models.SET_DEFAULT, default=1)
+    assign_to = models.ForeignKey(User, related_name='client_pics',on_delete=models.SET_DEFAULT, default=1)
+    client = models.ForeignKey(Client, related_name='contacts', on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50,blank=True,null=True)
+    last_name = models.CharField(max_length=50,blank=True,null=True)
+    birth_date = models.DateField(blank=True,null=True)
+    married = models.BooleanField(default=False)
+    family = models.CharField(max_length=100,blank=True,null=True)
+    phone_number = models.CharField(max_length=50,blank=True,null=True)
+    email = models.EmailField(blank=True,null=True)
+    religion = models.CharField(max_length=10,choices=CHOICE_REL,default='Muslim')
+    disc = models.CharField(max_length=15,choices=CHOICE_DISC,default='Dominance')
+    stakeholders = models.TextField(blank=True,null=True)    
+    gains = models.TextField(blank=True,null=True)
+    pains = models.TextField(blank=True,null=True)
+
 class ClientFilter(django_filters.FilterSet):
     class Meta:
         model = Client
