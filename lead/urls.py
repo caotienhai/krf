@@ -11,6 +11,7 @@ urlpatterns = [
     path('<int:pk>/add-comment/',views.AddCommentView.as_view(), name='add_comment'),
     path('<int:pk>/add-file/',views.AddFileView.as_view(), name='add_file'),
     path('comment/',views.CommentList.as_view(), name='comment'),
+    path('<int:pk>/add-contact/',views.AddContactView.as_view(), name='add_contact'),
     path('contact/',views.ContactList.as_view(), name='contact'),
     path('contact/<int:pk>/delete',views.delete_contact, name='delete_contact'),
     path('<int:pk>/convert/',views.ConvertView.as_view(), name='convert'),

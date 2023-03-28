@@ -15,6 +15,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href={%url 'leads:list'%}>Lead List</a>
             <a class="dropdown-item" href={%url 'leads:add'%}>Add New Lead</a>
+            <a class="dropdown-item" href={%url 'leads:contact'%}>Contacts</a>
             <a class="dropdown-item" href={%url 'leads:comment'%}>Caring Report</a>
             {% if team.name == 'Operation' %}
               <a class="dropdown-item" href={%url 'leads:import'%}>Upload Leads</a>
