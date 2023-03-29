@@ -1,0 +1,45 @@
+{% extends 'poscrm/base.html' %}
+{% load crispy_forms_tags %}
+{%block title%}{{ title }}{%endblock%}
+
+{% block content %}
+<div class = 'form-group w-full max-w-7xl mx-auto mt-2 px-4'>
+    <h1 class='text-xl'>{{ title }}</h1>
+    {{form.media}}
+    <form method = 'post' action=".">            
+        {% csrf_token %}
+        <div class="form-row align-items-center">
+            <div class="col-2 px-4">{{ form.first_name|as_crispy_field }}</div>
+            <div class="col-2 px-4">{{ form.last_name|as_crispy_field }}</div>
+            <div class="col-2 px-4">{{ form.client|as_crispy_field }}</div>
+            <div class="col-2 px-4">{{ form.birth_date|as_crispy_field }}</div>
+            <div class="col-1 px-4">{{ form.married|as_crispy_field }}</div>
+            <div class="col-3 px-4">{{ form.family|as_crispy_field }}</div>
+        </div> 
+
+        <div class="form-row align-items-center">
+            <div class="col-2 px-4">{{ form.phone_number|as_crispy_field }}</div>
+            <div class="col-2 px-4">{{ form.email|as_crispy_field }}</div>
+            <div class="col-2 px-4">{{ form.religion|as_crispy_field }}</div>
+            <div class="col-2 px-4">{{ form.disc|as_crispy_field }}</div>
+        </div>
+
+        <div class="form-row align-items-center">
+            <div class="col-4">{{ form.stakeholders|as_crispy_field }}</div>
+            <div class="col-4">{{ form.gains|as_crispy_field }}</div>
+            <div class="col-4">{{ form.pains|as_crispy_field }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">{{ form.team|as_crispy_field }}</div>
+            <div class="col-auto">{{ form.assign_to|as_crispy_field }}</div>
+        </div>
+        <div class="row mb-2">
+            <input type="submit" value="Save" class="py-1 px-4 mx-2 rounded-xl bg-success text-white">
+            <a href={% url 'clients:list' %} class="py-1 px-4 mx-2 rounded-xl bg-blue-500 text-white">Back To Lead List</a>
+            <a href={% url 'clients:contact' %} class="py-1 px-4 mx-2 rounded-xl bg-blue-500 text-white">Back to Contact List</a>
+        </div>
+        </form>
+        <hr class = "my-2">
+    </div>  
+{% endblock %}

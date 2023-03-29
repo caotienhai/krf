@@ -3,13 +3,14 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django_filters.views import FilterView
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
-from .models import Client, Team, ClientFilter, User
-from .forms import AddCommentForm, AddFileForm
+from .filters import ClientContactFilter
+from .models import Client, Team, ClientFilter, User, Contact
+from .forms import AddCommentForm, AddFileForm, AddContactForm
 
 @login_required 
 def clients_export(request):
@@ -131,7 +132,81 @@ class ClientUpdateView(LoginRequiredMixin,UpdateView):
     def get_queryset(self):
         queryset = super(ClientUpdateView, self).get_queryset()
         return queryset.filter(pk=self.kwargs.get('pk'))
-  
+
+class AddContactView(LoginRequiredMixin,CreateView):
+    model = Contact
+    fields = ['first_name','last_name','client',
+                  'birth_date','married','family','phone_number','email','religion',
+                  'disc','gains','pains','stakeholders',
+                  'assign_to','team']
+     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)       
+        context['title'] = 'Add Contact'
+        context['form'] = AddContactForm()
+        context['lead'] = get_object_or_404(Client,pk=self.kwargs['pk'])
+
+        return context
+
+    def form_valid(self, form):
+        client = Client.objects.filter(pk=self.kwargs['pk'])[0]
+        self.object = form.save(commit=False)
+        self.object.client = client
+        self.object.save() 
+        return redirect('clients:contact')
+
+
+class ContactList(LoginRequiredMixin,FilterView):
+    paginate_by = 5
+    context_object_name = 'contacts'
+    template_name = 'client/contact.html'
+    filterset_class = ClientContactFilter
+
+    def get_queryset(self):
+        contacts = Contact.objects.all()
+        if self.request.user.is_superuser:
+            return contacts.order_by('client')
+        else:
+            return contacts.filter(assign_to=self.request.user).order_by('client')
+
+class ContactDetailView(LoginRequiredMixin,DetailView): 
+    model = Contact
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Contact Detail'
+        return context
+        
+    def get_queryset(self):
+        queryset = super(ContactDetailView, self).get_queryset()
+        return queryset.filter(pk=self.kwargs.get('pk'))
+
+class ContactUpdateView(LoginRequiredMixin,UpdateView):
+    model = Contact    
+    fields = ['first_name','last_name','client',
+                  'birth_date','married','family','phone_number','email','religion',
+                  'disc','gains','pains','stakeholders',
+                  'assign_to','team']
+    success_url = reverse_lazy('clients:contact')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update Contact'
+        return context
+    
+    def get_queryset(self):
+        queryset = super(ContactUpdateView, self).get_queryset()
+        return queryset.filter(pk=self.kwargs.get('pk'))
+    
+@login_required
+def delete_contact(request, pk):    
+    contact = Contact.objects.get(id=pk)
+    contact.delete()
+    messages.success(
+            request, 'Task have been deleted successfully'
+            )
+    return redirect('clients:contact')
+
 @login_required 
 def importClient(request):
     if request.method == 'POST':
