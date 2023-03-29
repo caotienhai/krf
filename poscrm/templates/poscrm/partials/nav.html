@@ -27,6 +27,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href={%url 'clients:list'%}>Client List</a>
             <a class="dropdown-item" href={%url 'clients:add'%}>Add New Client</a>
+            <a class="dropdown-item" href={%url 'clients:contact'%}>Contacts</a>
             {%if team.name == 'Operation' %}
               <a class="dropdown-item" href={%url 'clients:import'%}>Upload Clients</a>
               <a class="dropdown-item" href={%url 'clients:export'%}>Upload Clients</a>
