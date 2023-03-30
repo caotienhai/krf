@@ -36,11 +36,14 @@ class AddCommentView(LoginRequiredMixin,View):
         
         if form.is_valid():
             team=Team.objects.filter(members__id=self.request.user.id)[0]
+            client = Client.objects.get(pk=pk)
             comment=form.save(commit=False)
             comment.team = team
             comment.created_by = request.user
             comment.client_id=pk 
             comment.save()
+            client.care_update = comment.content
+            client.save()
             
         return redirect('clients:detail',pk=pk)
     
