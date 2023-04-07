@@ -21,16 +21,14 @@ class ProductModel(models.Model):
         
 class Product(models.Model):    
     CHOICE_CAT = (('RO standard', 'RO standard'),
-                  ('RO Cabinet', 'RO Cabinet'),
+                  ('RO hot/cold', 'RO hot/cold'),
                   ('Dispenser', 'Dispenser'),
-                  ('RO commercial', 'RO commercial'),
-                  ('Air industry','Air industry'),
                   ('Accessories','Accessories'),
                   ('Air industry','Air industry'),
                   ('Pet filter','Pet filter'),
                   ('Other','Other'),)    
 
-    CHOICE_STATUS = (('Active', 'Active'),                                          
+    CHOICE_STATUS = (('Active', 'Active'), ('New', 'New'),                                      
                      ('Inactive', 'Inactive'),('Canceled', 'Canceled'),)
     product_code = models.CharField(max_length=10,unique=True)
     product_name = models.CharField(max_length=50,unique=True)
